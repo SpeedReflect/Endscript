@@ -12,13 +12,13 @@ namespace Endscript.Core
 	{
 		private readonly BaseProfile _profile;
 		private readonly string _directory;
+		private readonly string _mainfile;
 
-		private string MainFile => Path.Combine(this._directory, "info.end");
-
-		public EndSerializer(BaseProfile profile, string directory)
+		public EndSerializer(BaseProfile profile, string filename)
 		{
 			this._profile = profile;
-			this._directory = directory;
+			this._mainfile = filename;
+			this._directory = Path.GetDirectoryName(filename);
 		}
 
 		public void Serialize()
@@ -26,13 +26,15 @@ namespace Endscript.Core
 			if (Directory.Exists(this._directory)) Directory.Delete(this._directory, true);
 			Directory.CreateDirectory(this._directory);
 
-			using var sw = new StreamWriter(File.Open(this.MainFile, FileMode.Create));
+			using var sw = new StreamWriter(File.Open(this._mainfile, FileMode.Create));
 
 			sw.WriteLine("[VERSN4]");
 			sw.WriteLine($"// {DateTime.Now:MM/dd/yyyy HH:mm}");
 			sw.WriteLine();
+			sw.WriteLine($"game {this._profile.GameSTR}");
 			sw.WriteLine($"directory \"{this._profile.Directory}\"");
 			sw.WriteLine($"filecount {this._profile.Count}");
+			sw.WriteLine("generate");
 			sw.WriteLine();
 			sw.WriteLine();
 			sw.WriteLine();
@@ -70,7 +72,7 @@ namespace Endscript.Core
 
 						}
 
-						sw.WriteLine($"import synchronized \"{sdb.Filename}\" \"{manager.Name}\" \"{actual}\"");
+						sw.WriteLine($"import synchronized \"{sdb.Filename}\" \"{actual}\"");
 
 					}
 

@@ -2,18 +2,23 @@
 {
 	public enum eCommandType : int
 	{
-		invalid = 0,
-		update = 1,
-		add = 2,
-		remove = 3,
-		copy = 4,
-		export = 5,
-		import = 6,
-		@static = 7,
+		invalid,
+		game,
+		update,
+		add,
+		remove,
+		copy,
+		export,
+		import,
+		@static,
 
-		@new = 8,
-		delete = 9,
-		combine = 10,
+		@new,
+		delete,
+		combine,
+		generate,
+		directory,
+		filecount,
+		capacity,
 
 
 

@@ -169,6 +169,29 @@ namespace Endscript.Profiles
 
 		}
 
+		public static BaseProfile NewProfile(GameINT game, string directory)
+		{
+			return game switch
+			{
+				GameINT.Carbon => new CarbonProfile(directory),
+				GameINT.MostWanted => new MostWantedProfile(directory),
+				GameINT.Prostreet => new ProstreetProfile(directory),
+				_ => throw new InvalidGameException(game)
+			};
+		}
+
+		public static BaseProfile NewProfile(string game, string directory)
+		{
+			if (!Enum.TryParse(game, out GameINT type))
+			{
+
+				throw new InvalidGameException(game);
+
+			}
+
+			return NewProfile(type, directory);
+		}
+
 		#endregion
 
 		#region Enumerator
