@@ -14,7 +14,7 @@ namespace Endscript.Interfaces
 
 		public void Load(Launch launch);
 		public void Save();
-		public void Serialize();
-		public void Deserialize();
+		public void Serialize(string directory);
+		public void Deserialize(string directory);
 	}
 }

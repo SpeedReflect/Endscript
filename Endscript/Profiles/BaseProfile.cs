@@ -552,9 +552,16 @@ namespace Endscript.Profiles
 			await Task.WhenAll(tasks);
 		}
 
-		public abstract void Serialize();
+		public void Serialize(string directory)
+		{
+			var serializer = new EndSerializer(this, directory);
+			serializer.Serialize();
+		}
 
-		public abstract void Deserialize();
+		public void Deserialize(string directory)
+		{
+
+		}
 
 		private Task LoadOneSDB(SynchronizedDatabase sdb)
 		{

@@ -31,6 +31,11 @@ namespace Endscript.Core
 			sw.WriteLine("[VERSN4]");
 			sw.WriteLine($"// {DateTime.Now:MM/dd/yyyy HH:mm}");
 			sw.WriteLine();
+			sw.WriteLine($"directory \"{this._profile.Directory}\"");
+			sw.WriteLine($"filecount {this._profile.Count}");
+			sw.WriteLine();
+			sw.WriteLine();
+			sw.WriteLine();
 
 			// Hierarchy:
 			//     - Files
@@ -42,11 +47,12 @@ namespace Endscript.Core
 
 				var filepath = this.ReplaceInvalidPathChars(sdb.Filename.ToUpperInvariant());
 				Directory.CreateDirectory(Path.Combine(this._directory, filepath));
-				sw.WriteLine($"new {sdb.Filename}"); // write file name
+				sw.WriteLine($"new \"{sdb.Filename}\""); // write file name
 
 				foreach (var manager in sdb.Database.Managers)
 				{
 
+					sw.WriteLine($"capacity \"{sdb.Filename}\" \"{manager.Name}\" {manager.Count}");
 					var managepath = Path.Combine(filepath, manager.Name);
 					Directory.CreateDirectory(managepath);
 					
@@ -64,12 +70,16 @@ namespace Endscript.Core
 
 						}
 
-						sw.WriteLine($"import synchronized {sdb.Filename} {manager.Name} {actual}");
+						sw.WriteLine($"import synchronized \"{sdb.Filename}\" \"{manager.Name}\" \"{actual}\"");
 
 					}
 
+					sw.WriteLine();
+
 				}
 
+				sw.WriteLine();
+				sw.WriteLine();
 				sw.WriteLine();
 
 			}

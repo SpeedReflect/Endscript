@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Nikki.Core;
 
-using Nikki.Core;
+
 
 namespace Endscript.Profiles
 {
@@ -15,15 +13,5 @@ namespace Endscript.Profiles
 		public override string Directory { get; }
 
 		public CarbonProfile(string directory) : base() { this.Directory = directory; }
-
-		public override void Serialize()
-		{
-
-		}
-
-		public override void Deserialize()
-		{
-
-		}
 	}
 }
