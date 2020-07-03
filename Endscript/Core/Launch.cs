@@ -10,7 +10,7 @@ using Nikki.Core;
 
 
 
-namespace Endscript.Version
+namespace Endscript.Core
 {
 	public sealed class Launch
 	{

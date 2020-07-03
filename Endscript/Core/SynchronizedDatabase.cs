@@ -5,7 +5,7 @@ using Nikki.Reflection.Abstract;
 
 
 
-namespace Endscript
+namespace Endscript.Core
 {
 	public class SynchronizedDatabase
 	{

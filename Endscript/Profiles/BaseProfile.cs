@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
-using Endscript.Version;
+using System.Threading.Tasks;
+using Endscript.Core;
 using Endscript.Interfaces;
 using Endscript.Exceptions;
-
 using Nikki.Core;
 using CoreExtensions.Management;
-using System.Threading.Tasks;
+
+
 
 namespace Endscript.Profiles
 {
@@ -23,7 +22,6 @@ namespace Endscript.Profiles
 		public abstract GameINT GameINT { get; }
 		public abstract string GameSTR { get; }
 		public abstract string Directory { get; }
-		public abstract string Watermark { get; set; }
 
 		public SynchronizedDatabase this[int index]
 		{
@@ -56,7 +54,7 @@ namespace Endscript.Profiles
 					if (this.Contains(value.Filename))
 					{
 
-						
+						throw new DatabaseExistenceException(value.Filename);
 
 					}
 
@@ -442,6 +440,7 @@ namespace Endscript.Profiles
 
 			}
 
+
 			this._sdb[index] = new SynchronizedDatabase(this.GameINT, this.Directory, filename);
 			++this._size;
 		}
@@ -552,6 +551,10 @@ namespace Endscript.Profiles
 
 			await Task.WhenAll(tasks);
 		}
+
+		public abstract void Serialize();
+
+		public abstract void Deserialize();
 
 		private Task LoadOneSDB(SynchronizedDatabase sdb)
 		{

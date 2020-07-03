@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Endscript.Version;
+﻿using System.Collections.Generic;
+using Endscript.Core;
 using Nikki.Core;
 
 
@@ -12,9 +11,10 @@ namespace Endscript.Interfaces
 		public GameINT GameINT { get; }
 		public string GameSTR { get; }
 		public string Directory { get; }
-		public string Watermark { get; set; }
 
 		public void Load(Launch launch);
 		public void Save();
+		public void Serialize();
+		public void Deserialize();
 	}
 }
