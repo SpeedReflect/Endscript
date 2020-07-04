@@ -21,7 +21,9 @@
 		capacity,
 		append,
 
-
+		checkbox,
+		combobox,
+		end,
 
 
 

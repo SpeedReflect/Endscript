@@ -17,6 +17,7 @@ namespace Endscript.Core
 		private string _xml_description = String.Empty;
 		private const string VERSN2 = "[VERSN2]";
 		private const string VERSN3 = "[VERSN3]";
+		private BaseEndScriptCommand _last_parsed;
 
 		private string Directory => Path.GetDirectoryName(this._filename);
 		public string XMLDescription => this._xml_description;
@@ -73,8 +74,10 @@ namespace Endscript.Core
 				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
 
 				var splits = line.SmartSplitString().ToArray();
+
 				if (!Enum.TryParse(splits[0], out eCommandType type)) type = eCommandType.invalid;
 
+				// Flatten all endscripts into one by merging them together via append commands
 				if (type == eCommandType.append)
 				{
 
@@ -91,20 +94,24 @@ namespace Endscript.Core
 
 				}
 
+				// Get command type, parse it and add
 				BaseEndScriptCommand command = type switch
 				{
 					eCommandType.update => new UpdateEndScriptCommand(),
-
+					eCommandType.checkbox => new CheckboxEndscriptCommand(),
+					eCommandType.combobox => new ComboboxEndScriptCommand(),
 					_ => new InvalidEndScriptCommand()
 				};
 
 				command.Line = line;
 				command.Prepare(splits);
 				list.Add(command);
+				this._last_parsed = command;
 
 			}
 
 			return list;
 		}
+
 	}
 }

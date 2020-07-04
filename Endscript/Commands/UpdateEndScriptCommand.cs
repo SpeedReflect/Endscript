@@ -1,6 +1,9 @@
 ﻿using System;
 using Endscript.Core;
+using Endscript.Enums;
 using Endscript.Exceptions;
+
+
 
 namespace Endscript.Commands
 {
@@ -14,6 +17,8 @@ namespace Endscript.Commands
 		private string _subpart;
 		private string _property;
 		private string _value;
+
+		public override eCommandType Type => eCommandType.update;
 
 		public override void Prepare(string[] splits)
 		{

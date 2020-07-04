@@ -13,6 +13,7 @@ namespace Endscript.Commands
 	{
 		private string _command;
 
+		public override eCommandType Type => eCommandType.invalid;
 		public override void Prepare(string[] splits) { this._command = splits[0]; }
 		public override void Execute(CollectionMap map)
 		{
