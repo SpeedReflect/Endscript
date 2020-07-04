@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Endscript.Enums;
-using Endscript.Exceptions;
-using Endscript.Profiles;
-using CoreExtensions.Text;
 using Endscript.Helpers;
+using Endscript.Profiles;
+using Endscript.Exceptions;
+using CoreExtensions.Text;
+
+
 
 namespace Endscript.Core
 {

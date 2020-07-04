@@ -19,6 +19,7 @@
 		directory,
 		filecount,
 		capacity,
+		append,
 
 
 
