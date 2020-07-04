@@ -6,6 +6,9 @@ using Endscript.Exceptions;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'copy_collection [filename] [manager] [from] [to]'.
+	/// </summary>
 	public sealed class CopyCollectionCommand : BaseCommand
 	{
 		private string _filename;

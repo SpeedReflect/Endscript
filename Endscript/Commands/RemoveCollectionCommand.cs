@@ -6,6 +6,9 @@ using Endscript.Exceptions;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'remove_collection [filename] [manager] [collection]'.
+	/// </summary>
 	public sealed class RemoveCollectionCommand : BaseCommand
 	{
 		private string _filename;

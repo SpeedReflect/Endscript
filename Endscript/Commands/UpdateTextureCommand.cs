@@ -10,6 +10,9 @@ using CoreExtensions.Text;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'update_texture [filename] [manager] [tpkblock] [key] [property] [value]'.
+	/// </summary>
 	public sealed class UpdateTextureCommand : BaseCommand
 	{
 		private string _filename;
@@ -31,7 +34,7 @@ namespace Endscript.Commands
 			this._property = splits[5];
 			this._value = splits[6];
 
-			if (splits[4].IsHexString()) this._texture = Convert.ToUInt32(splits[4]);
+			if (splits[4].IsHexString()) this._texture = Convert.ToUInt32(splits[4], 16);
 			else throw new Exception($"Value {splits[4]} cannot be converted to a hexadecimal key");
 		}
 
@@ -43,6 +46,7 @@ namespace Endscript.Commands
 			{
 
 				var texture = tpk.FindTexture(this._texture, eKeyType.BINKEY);
+				
 				if (texture is null)
 				{
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Endscript.Core;
+﻿using Endscript.Core;
 using Endscript.Enums;
 
 

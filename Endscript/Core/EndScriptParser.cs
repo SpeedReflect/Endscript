@@ -98,13 +98,17 @@ namespace Endscript.Core
 				BaseCommand command = type switch
 				{
 					eCommandType.update_collection => new UpdateCollectionCommand(),
-
+					eCommandType.update_string => new UpdateStringCommand(),
+					eCommandType.update_texture => new UpdateTextureCommand(),
 					eCommandType.add_collection => new AddCollectionCommand(),
-
+					eCommandType.add_string => new AddStringCommand(),
+					eCommandType.add_texture => new AddTextureCommand(),
 					eCommandType.remove_collection => new RemoveCollectionCommand(),
-
+					eCommandType.remove_string => new RemoveStringCommand(),
+					eCommandType.remove_texture => new RemoveTextureCommand(),
 					eCommandType.copy_collection => new CopyCollectionCommand(),
-
+					eCommandType.copy_texture => new CopyTextureCommand(),
+					eCommandType.replace_texture => new ReplaceTextureCommand(),
 					eCommandType.checkbox => new CheckboxCommand(),
 					eCommandType.combobox => new ComboboxCommand(),
 					eCommandType.end => new EndCommand(),

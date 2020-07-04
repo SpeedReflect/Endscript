@@ -1,26 +1,27 @@
 ﻿using System;
-using System.IO;
 using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Exceptions;
+using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
+using CoreExtensions.Text;
 
 
 
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'add_texture [filename] [manager] [tpkblock] [texname] [path]'.
+	/// Command of type 'copy_texture [filename] [manager] [tpkblock] [from] [to]'.
 	/// </summary>
-	public sealed class AddTextureCommand : BaseCommand
+	public sealed class CopyTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;
 		private string _tpk;
-		private string _cname;
-		private string _path;
+		private uint _from;
+		private string _to;
 
-		public override eCommandType Type => eCommandType.add_texture;
+		public override eCommandType Type => eCommandType.copy_texture;
 
 		public override void Prepare(string[] splits)
 		{
@@ -29,8 +30,10 @@ namespace Endscript.Commands
 			this._filename = splits[1];
 			this._manager = splits[2];
 			this._tpk = splits[3];
-			this._cname = splits[4];
-			this._path = splits[5];
+			this._to = splits[5];
+
+			if (splits[4].IsHexString()) this._from = Convert.ToUInt32(splits[4], 16);
+			else throw new Exception($"Value {splits[4]} cannot be converted to a hexadecimal key");
 		}
 
 		public override void Execute(CollectionMap map)
@@ -40,8 +43,7 @@ namespace Endscript.Commands
 			if (collection is TPKBlock tpk)
 			{
 
-				var path = Path.Combine(map.Directory, this._path);
-				tpk.AddTexture(this._cname, path);
+				tpk.CloneTexture(this._to, this._from, eKeyType.BINKEY);
 
 			}
 			else

@@ -7,6 +7,9 @@ using Endscript.Interfaces;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'combobox param[options] [description]' with 'param' options.
+	/// </summary>
 	public sealed class ComboboxCommand : BaseCommand, ISelectable
 	{
 		private string[] _options;

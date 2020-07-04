@@ -8,6 +8,9 @@ using Endscript.Interfaces;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'checkbox [description]' with 'enabled/disabled' options.
+	/// </summary>
 	public sealed class CheckboxCommand : BaseCommand, ISelectable
 	{
 		private string[] _options;

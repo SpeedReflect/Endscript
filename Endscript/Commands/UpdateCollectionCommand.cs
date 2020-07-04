@@ -6,6 +6,9 @@ using Endscript.Exceptions;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'update_collection [filename] [manager] [collection] ([node] [subpart]) [property] [value]'.
+	/// </summary>
 	public sealed class UpdateCollectionCommand : BaseCommand
 	{
 		private string _filename;
