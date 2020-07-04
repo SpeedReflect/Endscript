@@ -541,6 +541,11 @@ namespace Endscript.Profiles
 			this._sdb[this._size] = null;
 		}
 
+		public void Sort()
+		{
+			Array.Sort(this._sdb, (x, y) => x.Filename.CompareTo(y.Filename));
+		}
+
 		public async void Load(Launch launch)
 		{
 			launch.LoadLinks();
@@ -575,15 +580,16 @@ namespace Endscript.Profiles
 			await Task.WhenAll(tasks);
 		}
 
-		public void Serialize(string directory)
+		public void Serialize(string filename)
 		{
-			var serializer = new EndSerializer(this, directory);
+			var serializer = new EndSerializer(this, filename);
 			serializer.Serialize();
 		}
 
-		public void Deserialize(string directory)
+		public void Deserialize(string filename)
 		{
-
+			var deserializer = new EndDeserializer(filename);
+			deserializer.Deserialize();
 		}
 
 		private Task LoadOneSDB(SynchronizedDatabase sdb)

@@ -8,30 +8,26 @@ using Endscript.Interfaces;
 
 namespace Endscript.Commands
 {
-	public class CheckboxEndscriptCommand : BaseEndScriptCommand, ISelectable
+	public class CheckboxCommand : BaseCommand, ISelectable
 	{
+		private string[] _options;
 		private string _description = String.Empty;
-		private int _level;
 
 		public override eCommandType Type => eCommandType.checkbox;
-		public bool Enabled { get; set; }
+		public string[] Options => this._options;
 		public string Description => this._description;
-		public int Choice => this.Enabled ? 1 : 0;
+		public int Choice { get; set; }
+
+		public CheckboxCommand() => this._options = new string[] { "disabled", "enabled" };
 
 		public override void Prepare(string[] splits)
 		{
-			this._level = splits.Length;
-			if (this._level == 2) this._description = splits[1];
+			if (splits.Length != 2) throw new InvalidArgsNumberException(splits.Length, 2);
+			this._description = splits[1];
 		}
 
 		public override void Execute(CollectionMap map)
 		{
-			if (this._level != 2 && ThrowError)
-			{
-
-				throw new InvalidArgsNumberException(this._level, 2);
-
-			}
 		}
 	
 		public int ParseOption(string option)
@@ -42,6 +38,16 @@ namespace Endscript.Commands
 				"enabled" => 1,
 				_ => -1
 			};
+		}
+	
+		public bool Contains(string option)
+		{
+			return option == this._options[0] || option == this._options[1];
+		}
+	
+		public void Evaluate()
+		{
+
 		}
 	}
 }

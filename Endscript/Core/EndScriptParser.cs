@@ -17,7 +17,6 @@ namespace Endscript.Core
 		private string _xml_description = String.Empty;
 		private const string VERSN2 = "[VERSN2]";
 		private const string VERSN3 = "[VERSN3]";
-		private BaseEndScriptCommand _last_parsed;
 
 		private string Directory => Path.GetDirectoryName(this._filename);
 		public string XMLDescription => this._xml_description;
@@ -27,12 +26,12 @@ namespace Endscript.Core
 			this._filename = filename;
 		}
 
-		public IEnumerable<BaseEndScriptCommand> Read()
+		public IEnumerable<BaseCommand> Read()
 		{
 			return this.RecursiveRead(this._filename);
 		}
 
-		private List<BaseEndScriptCommand> RecursiveRead(string filename)
+		private List<BaseCommand> RecursiveRead(string filename)
 		{
 			// Always expect Version 2 endscript to be passed
 
@@ -64,7 +63,7 @@ namespace Endscript.Core
 			}
 
 			var lines = File.ReadAllLines(this._filename);
-			var list = new List<BaseEndScriptCommand>(lines.Length);
+			var list = new List<BaseCommand>(lines.Length);
 
 			// Start with line 1 b/c line 0 is VERSN line
 			for (int i = 1; i < lines.Length; ++i)
@@ -91,27 +90,27 @@ namespace Endscript.Core
 					var path = Path.Combine(this.Directory, splits[1]);
 					var addon = this.RecursiveRead(path);
 					if (addon != null) list.AddRange(addon);
+					continue;
 
 				}
 
 				// Get command type, parse it and add
-				BaseEndScriptCommand command = type switch
+				BaseCommand command = type switch
 				{
-					eCommandType.update => new UpdateEndScriptCommand(),
-					eCommandType.checkbox => new CheckboxEndscriptCommand(),
-					eCommandType.combobox => new ComboboxEndScriptCommand(),
-					_ => new InvalidEndScriptCommand()
+					eCommandType.update => new UpdateCollectionEndScriptCommand(),
+					eCommandType.checkbox => new CheckboxCommand(),
+					eCommandType.combobox => new ComboboxCommand(),
+					eCommandType.end => new EndCommand(),
+					_ => new OptionalCommand()
 				};
 
 				command.Line = line;
 				command.Prepare(splits);
 				list.Add(command);
-				this._last_parsed = command;
 
 			}
 
 			return list;
 		}
-
 	}
 }

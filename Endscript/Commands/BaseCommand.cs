@@ -1,14 +1,14 @@
-﻿using Endscript.Core;
+﻿using System;
+using Endscript.Core;
 using Endscript.Enums;
 
 
 
 namespace Endscript.Commands
 {
-	public abstract class BaseEndScriptCommand
+	public abstract class BaseCommand
 	{
 		public abstract eCommandType Type { get; }
-		public static bool ThrowError { get; set; }
 		public string Line { get; set; }
 
 		public abstract void Prepare(string[] splits);

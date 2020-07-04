@@ -9,20 +9,19 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command with any invalid <see cref="eCommandType"/> passed.
 	/// </summary>
-	public sealed class InvalidEndScriptCommand : BaseEndScriptCommand
+	public sealed class OptionalCommand : BaseCommand
 	{
-		private string _command;
+		private string _option;
 
 		public override eCommandType Type => eCommandType.invalid;
-		public override void Prepare(string[] splits) { this._command = splits[0]; }
+		public string Option => this._option;
+		public override void Prepare(string[] splits)
+		{
+			this._option = splits[0];
+		}
 		public override void Execute(CollectionMap map)
 		{
-			if (ThrowError)
-			{
-
-				throw new EndscriptExecutionException($"Command {this._command} cannot be recognized");
-
-			}
+			throw new EndscriptExecutionException($"Command {this._option} cannot be recognized");
 		}
 	}
 }

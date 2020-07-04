@@ -1,8 +1,12 @@
 ﻿namespace Endscript.Interfaces
 {
-	internal interface ISelectable
+	public interface ISelectable
 	{
-		int Choice { get; }
-		int ParseOption(string option);
+		public int Choice { get; set; }
+		public string Description { get; }
+		public string[] Options { get; }
+		public int ParseOption(string option);
+		public bool Contains(string option);
+		public void Evaluate();
 	}
 }

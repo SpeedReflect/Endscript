@@ -15,11 +15,11 @@ namespace Endscript.Core
 	{
 		private const string delim = "|";
 		private readonly Dictionary<string, Collectable> _map;
-		private readonly BaseProfile _profile;
+		public BaseProfile Profile { get; }
 
 		public CollectionMap(BaseProfile profile)
 		{
-			this._profile = profile;
+			this.Profile = profile;
 			this._map = new Dictionary<string, Collectable>(this.FastEstimateCapacity());
 			this.LoadMapFromProfile();
 		}
@@ -27,7 +27,7 @@ namespace Endscript.Core
 		private int FastEstimateCapacity()
 		{
 			int result = 10;
-			foreach (var sdb in this._profile)
+			foreach (var sdb in this.Profile)
 			{
 
 				foreach (var manager in sdb.Database.Managers)
@@ -44,7 +44,7 @@ namespace Endscript.Core
 
 		private void LoadMapFromProfile()
 		{
-			foreach (var sdb in this._profile)
+			foreach (var sdb in this.Profile)
 			{
 
 				foreach (var manager in sdb.Database.Managers)
@@ -62,50 +62,30 @@ namespace Endscript.Core
 
 			}
 		}
-
-		public SynchronizedDatabase GetSynchronizedDatabase(string filename, bool errorthrow)
-		{
-			var result = this._profile[filename];
-
-			if (result is null && errorthrow)
-			{
-
-				throw new LookupFailException($"File {filename} was never loaded");
-
-			}
-
-			return result;
-		}
-
-		public IManager GetManager(string filename, string manager, bool errorthrow)
-		{
-			var sdb = this.GetSynchronizedDatabase(filename, errorthrow);
-			if (sdb is null) return null;
-
-			var result = sdb.Database.GetManager(manager);
-
-			if (result is null && errorthrow)
-			{
-
-				throw new LookupFailException($"Manager named {manager} does not exist");
-
-			}
-
-			return result;
-		}
 	
-		public Collectable GetCollection(string filename, string manager, string cname, bool errorthrow)
+		public Collectable GetCollection(string filename, string manager, string cname)
 		{
 			var path = filename + delim + manager + delim + cname;
 			if (this._map.TryGetValue(path, out var result)) return result;
-			else if (errorthrow) throw new LookupFailException($"Collection named {cname} does not exist");
-			else return null;
+			throw new LookupFailException($"Collection named {cname} does not exist");
 		}
 	
 		public bool ContainsCollection(string filename, string manager, string cname)
 		{
 			var path = filename + delim + manager + delim + cname;
 			return this._map.ContainsKey(path);
+		}
+	
+		public void AddCollection(string filename, string manager, string cname, object collection)
+		{
+			var path = filename + delim + manager + delim + cname;
+			this._map.Add(path, (Collectable)collection);
+		}
+
+		public void RemoveCollection(string filename, string manager, string cname)
+		{
+			var path = filename + delim + manager + delim + cname;
+			this._map.Remove(path);
 		}
 	}
 }
