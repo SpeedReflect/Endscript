@@ -13,7 +13,7 @@ namespace Endscript.Commands
 		private string _from;
 		private string _to;
 
-		public override eCommandType Type => eCommandType.copy;
+		public override eCommandType Type => eCommandType.copy_collection;
 
 		public override void Prepare(string[] splits)
 		{
@@ -45,8 +45,8 @@ namespace Endscript.Commands
 
 			}
 
-			manager.Add(this._collection);
-			map.AddCollection(this._filename, this._manager, this._collection, manager[^1]);
+			manager.Clone(this._to, this._from);
+			map.AddCollection(this._filename, this._manager, this._to, manager[^1]);
 		}
 	}
 }

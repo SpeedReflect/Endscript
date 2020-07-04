@@ -16,10 +16,12 @@ namespace Endscript.Core
 		private const string delim = "|";
 		private readonly Dictionary<string, Collectable> _map;
 		public BaseProfile Profile { get; }
+		public string Directory { get; }
 
-		public CollectionMap(BaseProfile profile)
+		public CollectionMap(BaseProfile profile, string directory)
 		{
 			this.Profile = profile;
+			this.Directory = directory;
 			this._map = new Dictionary<string, Collectable>(this.FastEstimateCapacity());
 			this.LoadMapFromProfile();
 		}
@@ -67,7 +69,7 @@ namespace Endscript.Core
 		{
 			var path = filename + delim + manager + delim + cname;
 			if (this._map.TryGetValue(path, out var result)) return result;
-			throw new LookupFailException($"Collection named {cname} does not exist");
+			else throw new LookupFailException($"Collection named {cname} does not exist");
 		}
 	
 		public bool ContainsCollection(string filename, string manager, string cname)

@@ -97,7 +97,14 @@ namespace Endscript.Core
 				// Get command type, parse it and add
 				BaseCommand command = type switch
 				{
-					eCommandType.update => new UpdateCollectionEndScriptCommand(),
+					eCommandType.update_collection => new UpdateCollectionCommand(),
+
+					eCommandType.add_collection => new AddCollectionCommand(),
+
+					eCommandType.remove_collection => new RemoveCollectionCommand(),
+
+					eCommandType.copy_collection => new CopyCollectionCommand(),
+
 					eCommandType.checkbox => new CheckboxCommand(),
 					eCommandType.combobox => new ComboboxCommand(),
 					eCommandType.end => new EndCommand(),

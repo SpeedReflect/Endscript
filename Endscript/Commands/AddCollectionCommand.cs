@@ -12,7 +12,7 @@ namespace Endscript.Commands
 		private string _manager;
 		private string _collection;
 
-		public override eCommandType Type => eCommandType.add;
+		public override eCommandType Type => eCommandType.add_collection;
 
 		public override void Prepare(string[] splits)
 		{

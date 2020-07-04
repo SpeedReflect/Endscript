@@ -8,7 +8,7 @@ using Endscript.Interfaces;
 
 namespace Endscript.Commands
 {
-	public class CheckboxCommand : BaseCommand, ISelectable
+	public sealed class CheckboxCommand : BaseCommand, ISelectable
 	{
 		private string[] _options;
 		private string _description = String.Empty;

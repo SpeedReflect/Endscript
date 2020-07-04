@@ -16,7 +16,7 @@ namespace Endscript.Commands
 		private string _property;
 		private string _value;
 
-		public override eCommandType Type => eCommandType.update;
+		public override eCommandType Type => eCommandType.update_collection;
 
 		public override void Prepare(string[] splits)
 		{
