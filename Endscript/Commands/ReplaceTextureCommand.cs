@@ -14,7 +14,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'replace_texture [filename] [manager] [tpkblock] [key] [path]'.
 	/// </summary>
-	public sealed class ReplaceTextureCommand : BaseCommand
+	public class ReplaceTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

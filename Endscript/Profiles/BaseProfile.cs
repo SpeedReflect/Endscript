@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Endscript.Core;
+using Endscript.Enums;
 using Endscript.Interfaces;
 using Endscript.Exceptions;
 using Nikki.Core;
 using CoreExtensions.Management;
-
-
+using System.IO;
 
 namespace Endscript.Profiles
 {
@@ -544,6 +544,43 @@ namespace Endscript.Profiles
 		public void Sort()
 		{
 			Array.Sort(this._sdb, (x, y) => x.Filename.CompareTo(y.Filename));
+		}
+
+		public void New(eImportType type, string filename)
+		{
+			this.Add(filename);
+			var sdb = this._sdb[^1];
+
+			switch (type)
+			{
+				case eImportType.negate:
+					if (File.Exists(sdb.FullPath)) { sdb.Load(); break; }
+					else goto default;
+
+				case eImportType.synchronize:
+					if (File.Exists(sdb.FullPath)) break;
+					else goto default;
+
+				default: // eImportType.@override
+					File.Create(sdb.FullPath);
+					break;
+
+			}
+		}
+
+		public void Delete(string filename)
+		{
+			var index = this.IndexOf(filename);
+			
+			if (index == -1)
+			{
+
+				throw new ArgumentException($"File named {filename} was never loaded");
+
+			}
+
+			this._sdb[index].Save();
+			this.RemoveAt(index);
 		}
 
 		public async void Load(Launch launch)

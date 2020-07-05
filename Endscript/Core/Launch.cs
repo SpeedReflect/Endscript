@@ -12,7 +12,7 @@ using Nikki.Core;
 
 namespace Endscript.Core
 {
-	public sealed class Launch
+	public class Launch
 	{
 		[JsonIgnore()]
 		public string ThisDir { get; set; }

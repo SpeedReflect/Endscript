@@ -4,7 +4,7 @@
 
 namespace Endscript.Exceptions
 {
-	public sealed class InvalidArgsNumberException : Exception
+	public class InvalidArgsNumberException : Exception
 	{
 		public InvalidArgsNumberException() : base() { }
 

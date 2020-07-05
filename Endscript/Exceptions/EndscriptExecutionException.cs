@@ -4,7 +4,7 @@
 
 namespace Endscript.Exceptions
 {
-	public sealed class EndscriptExecutionException : Exception
+	public class EndscriptExecutionException : Exception
 	{
 		public EndscriptExecutionException() : base() { }
 

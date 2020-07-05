@@ -9,7 +9,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_collection [filename] [manager] [collection] ([node] [subpart]) [property] [value]'.
 	/// </summary>
-	public sealed class UpdateCollectionCommand : BaseCommand
+	public class UpdateCollectionCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

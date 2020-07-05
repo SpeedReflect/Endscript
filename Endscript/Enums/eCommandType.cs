@@ -16,9 +16,8 @@
 		copy_collection,
 		copy_texture,
 		replace_texture,
-		export,
-		import,
 		@static,
+		import,
 
 		@new,
 		delete,

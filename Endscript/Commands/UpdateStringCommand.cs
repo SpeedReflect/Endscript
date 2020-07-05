@@ -12,7 +12,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_string [filename] [manager] [strblock] [key] [property] [value]'.
 	/// </summary>
-	public sealed class UpdateStringCommand : BaseCommand
+	public class UpdateStringCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

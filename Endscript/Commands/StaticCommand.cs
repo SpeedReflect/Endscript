@@ -7,15 +7,16 @@ using Endscript.Exceptions;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'remove_collection [filename] [manager] [collection]'.
+	/// Command of type 'static [filename] [manager] [property] [value]'.
 	/// </summary>
-	public class RemoveCollectionCommand : BaseCommand
+	public class StaticCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;
-		private string _collection;
+		private string _property;
+		private string _value;
 
-		public override eCommandType Type => eCommandType.remove_collection;
+		public override eCommandType Type => eCommandType.@static;
 
 		public override void Prepare(string[] splits)
 		{
@@ -23,7 +24,8 @@ namespace Endscript.Commands
 
 			this._filename = splits[1];
 			this._manager = splits[2];
-			this._collection = splits[3];
+			this._property = splits[3];
+			this._value = splits[4];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -46,8 +48,7 @@ namespace Endscript.Commands
 
 			}
 
-			manager.Remove(this._collection);
-			map.RemoveCollection(this._filename, this._manager, this._collection);
+			manager.Static(this._property, this._value);
 		}
 	}
 }

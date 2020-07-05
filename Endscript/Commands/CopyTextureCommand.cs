@@ -13,7 +13,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'copy_texture [filename] [manager] [tpkblock] [from] [to]'.
 	/// </summary>
-	public sealed class CopyTextureCommand : BaseCommand
+	public class CopyTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

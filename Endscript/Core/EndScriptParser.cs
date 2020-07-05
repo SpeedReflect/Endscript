@@ -11,7 +11,7 @@ using CoreExtensions.Text;
 
 namespace Endscript.Core
 {
-	public sealed class EndScriptParser
+	public class EndScriptParser
 	{
 		private readonly string _filename;
 		private string _xml_description = String.Empty;
@@ -109,6 +109,10 @@ namespace Endscript.Core
 					eCommandType.copy_collection => new CopyCollectionCommand(),
 					eCommandType.copy_texture => new CopyTextureCommand(),
 					eCommandType.replace_texture => new ReplaceTextureCommand(),
+					eCommandType.@static => new StaticCommand(),
+					eCommandType.import => new ImportCommand(),
+					eCommandType.@new => new NewCommand(),
+					eCommandType.delete => new DeleteCommand(),
 					eCommandType.checkbox => new CheckboxCommand(),
 					eCommandType.combobox => new ComboboxCommand(),
 					eCommandType.end => new EndCommand(),

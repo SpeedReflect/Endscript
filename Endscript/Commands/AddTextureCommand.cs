@@ -12,7 +12,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'add_texture [filename] [manager] [tpkblock] [texname] [path]'.
 	/// </summary>
-	public sealed class AddTextureCommand : BaseCommand
+	public class AddTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

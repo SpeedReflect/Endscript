@@ -8,7 +8,7 @@ using Nikki.Reflection.Interface;
 
 namespace Endscript.Core
 {
-	public sealed class EndSerializer
+	public class EndSerializer
 	{
 		private readonly BaseProfile _profile;
 		private readonly string _directory;

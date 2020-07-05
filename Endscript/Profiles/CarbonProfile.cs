@@ -4,7 +4,7 @@
 
 namespace Endscript.Profiles
 {
-	public sealed class CarbonProfile : BaseProfile
+	public class CarbonProfile : BaseProfile
 	{
 		public override GameINT GameINT => GameINT.Carbon;
 

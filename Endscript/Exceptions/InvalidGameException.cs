@@ -5,7 +5,7 @@ using Nikki.Core;
 
 namespace Endscript.Exceptions
 {
-	public sealed class InvalidGameException : Exception
+	public class InvalidGameException : Exception
 	{
 		public InvalidGameException() : base() { }
 

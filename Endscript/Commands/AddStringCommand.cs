@@ -11,7 +11,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'add_string [filename] [manager] [strblock] [key] [label] [text]'.
 	/// </summary>
-	public sealed class AddStringCommand : BaseCommand
+	public class AddStringCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

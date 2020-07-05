@@ -4,7 +4,7 @@
 
 namespace Endscript.Exceptions
 {
-	public sealed class InvalidVersionException : Exception
+	public class InvalidVersionException : Exception
 	{
 		public InvalidVersionException() : base() { }
 

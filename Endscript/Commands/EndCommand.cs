@@ -10,7 +10,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'end'. Used to specify end of <see cref="ISelectable"/> statements.
 	/// </summary>
-	public sealed class EndCommand : BaseCommand
+	public class EndCommand : BaseCommand
 	{
 		public override eCommandType Type => eCommandType.end;
 

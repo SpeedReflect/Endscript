@@ -11,7 +11,7 @@ using CoreExtensions.Text;
 
 namespace Endscript.Core
 {
-	public sealed class EndDeserializer
+	public class EndDeserializer
 	{
 		private BaseProfile _profile;
 		private readonly string _directory;

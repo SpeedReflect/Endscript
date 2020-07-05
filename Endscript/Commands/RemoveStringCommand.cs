@@ -12,7 +12,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'remove_string [filename] [manager] [strblock] [key]'.
 	/// </summary>
-	public sealed class RemoveStringCommand : BaseCommand
+	public class RemoveStringCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

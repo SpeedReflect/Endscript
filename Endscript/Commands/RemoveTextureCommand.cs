@@ -13,7 +13,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'remove_texture [filename] [manager] [tpkblock] [key]'.
 	/// </summary>
-	public sealed class RemoveTextureCommand : BaseCommand
+	public class RemoveTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

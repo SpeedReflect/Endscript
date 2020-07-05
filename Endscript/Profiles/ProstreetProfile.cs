@@ -4,7 +4,7 @@
 
 namespace Endscript.Profiles
 {
-	public sealed class ProstreetProfile : BaseProfile
+	public class ProstreetProfile : BaseProfile
 	{
 		public override GameINT GameINT => GameINT.Prostreet;
 

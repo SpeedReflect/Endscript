@@ -4,7 +4,7 @@
 
 namespace Endscript.Profiles
 {
-	public sealed class MostWantedProfile : BaseProfile
+	public class MostWantedProfile : BaseProfile
 	{
 		public override GameINT GameINT => GameINT.MostWanted;
 

@@ -6,12 +6,11 @@ using Endscript.Exceptions;
 
 using Nikki.Reflection.Abstract;
 using Nikki.Reflection.Interface;
-
-
+using CoreExtensions.Management;
 
 namespace Endscript.Core
 {
-	public sealed class CollectionMap
+	public class CollectionMap
 	{
 		private const string delim = "|";
 		private readonly Dictionary<string, Collectable> _map;
@@ -22,8 +21,8 @@ namespace Endscript.Core
 		{
 			this.Profile = profile;
 			this.Directory = directory;
-			this._map = new Dictionary<string, Collectable>(this.FastEstimateCapacity());
-			this.LoadMapFromProfile();
+			this._map = new Dictionary<string, Collectable>();
+			this.LoadMapFromProfile(false);
 		}
 
 		private int FastEstimateCapacity()
@@ -44,8 +43,11 @@ namespace Endscript.Core
 			return result;
 		}
 
-		private void LoadMapFromProfile()
+		public void LoadMapFromProfile(bool gccollect)
 		{
+			this._map.Clear();
+			this._map.EnsureCapacity(this.FastEstimateCapacity());
+
 			foreach (var sdb in this.Profile)
 			{
 
@@ -63,8 +65,10 @@ namespace Endscript.Core
 				}
 
 			}
+
+			if (gccollect) ForcedX.GCCollect(true, true);
 		}
-	
+
 		public Collectable GetCollection(string filename, string manager, string cname)
 		{
 			var path = filename + delim + manager + delim + cname;

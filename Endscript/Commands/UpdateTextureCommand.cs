@@ -13,7 +13,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_texture [filename] [manager] [tpkblock] [key] [property] [value]'.
 	/// </summary>
-	public sealed class UpdateTextureCommand : BaseCommand
+	public class UpdateTextureCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

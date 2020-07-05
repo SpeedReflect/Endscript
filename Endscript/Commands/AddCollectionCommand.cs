@@ -9,7 +9,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'add_collection [filename] [manager] [collection]'.
 	/// </summary>
-	public sealed class AddCollectionCommand : BaseCommand
+	public class AddCollectionCommand : BaseCommand
 	{
 		private string _filename;
 		private string _manager;

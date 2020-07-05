@@ -9,7 +9,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command with any invalid <see cref="eCommandType"/> passed.
 	/// </summary>
-	public sealed class OptionalCommand : BaseCommand
+	public class OptionalCommand : BaseCommand
 	{
 		private string _option;
 
