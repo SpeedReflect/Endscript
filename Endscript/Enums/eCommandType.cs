@@ -25,7 +25,6 @@
 		delete,
 
 		watermark,
-		menu,
 		create_file,
 		create_folder,
 		erase_file,

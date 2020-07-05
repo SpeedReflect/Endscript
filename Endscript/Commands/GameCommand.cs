@@ -8,6 +8,9 @@ using Nikki.Core;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'game [gametype]'.
+	/// </summary>
 	public class GameCommand : BaseCommand
 	{
 		private GameINT _game;

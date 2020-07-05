@@ -8,6 +8,9 @@ using Nikki.Reflection.Abstract;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// An <see langword="abstract"/> wrapper around Endscript command.
+	/// </summary>
 	public abstract class BaseCommand
 	{
 		public abstract eCommandType Type { get; }

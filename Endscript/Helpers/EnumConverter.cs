@@ -19,5 +19,15 @@ namespace Endscript.Helpers
 				_ => eSerializeType.Override
 			};
 		}
+	
+		public static ePathType StringToPathType(string str)
+		{
+			return str switch
+			{
+				"relative" => ePathType.Relative,
+				"absolute" => ePathType.Absolute,
+				_ => ePathType.Invalid
+			};
+		}
 	}
 }

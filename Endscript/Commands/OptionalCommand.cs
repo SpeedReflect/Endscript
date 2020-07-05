@@ -7,7 +7,7 @@ using Endscript.Exceptions;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command with any invalid <see cref="eCommandType"/> passed.
+	/// An optional command with unknown <see cref="eCommandType"/> type.
 	/// </summary>
 	public class OptionalCommand : BaseCommand
 	{

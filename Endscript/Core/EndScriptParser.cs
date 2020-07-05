@@ -20,7 +20,14 @@ namespace Endscript.Core
 		private const string VERSN2 = "[VERSN2]";
 		private const string VERSN3 = "[VERSN3]";
 
-		private string Directory => Path.GetDirectoryName(this._filename);
+		/// <summary>
+		/// Directory of the launcher endscript passed.
+		/// </summary>
+		public string Directory => Path.GetDirectoryName(this._filename);
+
+		/// <summary>
+		/// XML description menu as a string value.
+		/// </summary>
 		public string XMLDescription => this._xml_description;
 		
 		public EndScriptParser(string filename)
@@ -149,6 +156,8 @@ namespace Endscript.Core
 		{
 			return type switch
 			{
+				eCommandType.game => new GameCommand(),
+				eCommandType.version => new VersionCommand(),
 				eCommandType.update_collection => new UpdateCollectionCommand(),
 				eCommandType.update_string => new UpdateStringCommand(),
 				eCommandType.update_texture => new UpdateTextureCommand(),

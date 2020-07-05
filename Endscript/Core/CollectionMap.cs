@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using Endscript.Profiles;
 using Endscript.Exceptions;
@@ -13,13 +13,21 @@ namespace Endscript.Core
 	{
 		private const string delim = "|";
 		private readonly Dictionary<string, Collectable> _map;
+
+		/// <summary>
+		/// <see cref="BaseProfile"/> that this <see cref="CollectionMap"/> wraps around.
+		/// </summary>
 		public BaseProfile Profile { get; }
+
+		/// <summary>
+		/// Directory of the main endscript.
+		/// </summary>
 		public string Directory { get; }
 
-		public CollectionMap(BaseProfile profile, string directory)
+		public CollectionMap(BaseProfile profile, string launcher)
 		{
 			this.Profile = profile;
-			this.Directory = directory;
+			this.Directory = Path.GetDirectoryName(launcher);
 			this._map = new Dictionary<string, Collectable>();
 			this.LoadMapFromProfile(false);
 		}

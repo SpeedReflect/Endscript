@@ -7,6 +7,9 @@ using Endscript.Exceptions;
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'version [#.#.#.#]'.
+	/// </summary>
 	public class VersionCommand : BaseCommand
 	{
 		private System.Version _version;
@@ -19,7 +22,7 @@ namespace Endscript.Commands
 
 			this.CheckValidVersion(splits[1]);
 
-			if (Version.Value.CompareTo(this._version) <= 0) return;
+			if (Version.Value.CompareTo(this._version) >= 0) return;
 			else throw new Exception($"Endscript version {this._version} is higher than executable {Version.Value}");
 		}
 
