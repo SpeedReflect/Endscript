@@ -1,7 +1,9 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
@@ -13,7 +15,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_texture [filename] [manager] [tpkblock] [key] [property] [value]'.
 	/// </summary>
-	public class UpdateTextureCommand : BaseCommand
+	public class UpdateTextureCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -47,6 +49,33 @@ namespace Endscript.Commands
 
 				var texture = tpk.FindTexture(this._texture, eKeyType.BINKEY);
 				
+				if (texture is null)
+				{
+
+					throw new LookupFailException($"Texture with key 0x{this._texture:X8} does not exist");
+
+				}
+
+				texture.SetValue(this._property, this._value);
+
+			}
+			else
+			{
+
+				throw new Exception($"Object {this._tpk} is not a TPKBlock");
+
+			}
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			var collection = this.GetManualCollection(this._filename, this._manager, this._tpk, profile);
+
+			if (collection is TPKBlock tpk)
+			{
+
+				var texture = tpk.FindTexture(this._texture, eKeyType.BINKEY);
+
 				if (texture is null)
 				{
 

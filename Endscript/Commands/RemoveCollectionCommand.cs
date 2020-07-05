@@ -1,6 +1,8 @@
 ﻿using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 
 
 
@@ -9,7 +11,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'remove_collection [filename] [manager] [collection]'.
 	/// </summary>
-	public class RemoveCollectionCommand : BaseCommand
+	public class RemoveCollectionCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -48,6 +50,29 @@ namespace Endscript.Commands
 
 			manager.Remove(this._collection);
 			map.RemoveCollection(this._filename, this._manager, this._collection);
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			var sdb = profile[this._filename];
+
+			if (sdb is null)
+			{
+
+				throw new LookupFailException($"File {this._filename} was never loaded");
+
+			}
+
+			var manager = sdb.Database.GetManager(this._manager);
+
+			if (manager is null)
+			{
+
+				throw new LookupFailException($"Manager named {this._manager} does not exist");
+
+			}
+
+			manager.Remove(this._collection);
 		}
 	}
 }

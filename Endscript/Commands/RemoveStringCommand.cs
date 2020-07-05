@@ -1,7 +1,9 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
 
@@ -12,7 +14,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'remove_string [filename] [manager] [strblock] [key]'.
 	/// </summary>
-	public class RemoveStringCommand : BaseCommand
+	public class RemoveStringCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -36,6 +38,24 @@ namespace Endscript.Commands
 		public override void Execute(CollectionMap map)
 		{
 			var collection = map.GetCollection(this._filename, this._manager, this._str);
+
+			if (collection is STRBlock str)
+			{
+
+				str.RemoveRecord(this._record);
+
+			}
+			else
+			{
+
+				throw new Exception($"Object {this._str} is not a STRBlock");
+
+			}
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			var collection = this.GetManualCollection(this._filename, this._manager, this._str, profile);
 
 			if (collection is STRBlock str)
 			{

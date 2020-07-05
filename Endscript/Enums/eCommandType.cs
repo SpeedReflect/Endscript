@@ -4,6 +4,8 @@
 	{
 		invalid,
 		game,
+		version,
+		append,
 		update_collection,
 		update_string,
 		update_texture,
@@ -18,21 +20,24 @@
 		replace_texture,
 		@static,
 		import,
-
 		@new,
 		delete,
-		combine,
+
+		watermark,
+		menu,
+		create_file,
+		create_folder,
+		erase_file,
+		erase_folder,
+		move_file,
+		move_folder,
+
 		generate,
 		directory,
 		filecount,
 		capacity,
-		append,
-
 		checkbox,
 		combobox,
 		end,
-
-
-
 	}
 }

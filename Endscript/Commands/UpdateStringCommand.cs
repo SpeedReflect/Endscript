@@ -1,7 +1,9 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
 
@@ -12,7 +14,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_string [filename] [manager] [strblock] [key] [property] [value]'.
 	/// </summary>
-	public class UpdateStringCommand : BaseCommand
+	public class UpdateStringCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -46,6 +48,33 @@ namespace Endscript.Commands
 
 				var record = str.GetRecord(this._record);
 				
+				if (record is null)
+				{
+
+					throw new LookupFailException($"String with key 0x{this._record:X8} does not exist");
+
+				}
+
+				record.SetValue(this._property, this._value);
+
+			}
+			else
+			{
+
+				throw new Exception($"Object {this._str} is not a STRBlock");
+
+			}
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			var collection = this.GetManualCollection(this._filename, this._manager, this._str, profile);
+
+			if (collection is STRBlock str)
+			{
+
+				var record = str.GetRecord(this._record);
+
 				if (record is null)
 				{
 

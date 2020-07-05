@@ -127,5 +127,28 @@ namespace Endscript.Core
 
 			return list;
 		}
+	
+		public static void ExecuteCommand(string line)
+		{
+			if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) return;
+			var splits = line.SmartSplitString().ToArray();
+
+			if (!Enum.TryParse(splits[0], out eCommandType type))
+			{
+
+				throw new Exception($"Unrecognizable command named {splits[0]}");
+
+			}
+
+			BaseCommand command = type switch
+			{
+
+
+
+
+			};
+
+
+		}
 	}
 }

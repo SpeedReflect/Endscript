@@ -1,6 +1,8 @@
 ﻿using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 
 
 
@@ -9,7 +11,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'update_collection [filename] [manager] [collection] ([node] [subpart]) [property] [value]'.
 	/// </summary>
-	public class UpdateCollectionCommand : BaseCommand
+	public class UpdateCollectionCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -51,21 +53,40 @@ namespace Endscript.Commands
 
 		public override void Execute(CollectionMap map)
 		{
-			if (this._expand is null) this.UpdateCollection(map);
-			else this.UpdateSubPart(map); // quick way to check
+			var collection = map.GetCollection(this._filename, this._manager, this._collection);
+
+			if (this._expand is null)
+			{
+
+				collection.SetValue(this._property, this._value);
+
+			}
+			else
+			{
+
+				var part = collection.GetSubPart(this._subpart, this._expand);
+				part.SetValue(this._property, this._value);
+
+			}
 		}
 
-		private void UpdateCollection(CollectionMap map)
+		public void SingleExecution(BaseProfile profile)
 		{
-			var collection = map.GetCollection(this._filename, this._manager, this._collection);
-			collection.SetValue(this._property, this._value);
-		}
+			var collection = this.GetManualCollection(this._filename, this._manager, this._collection, profile);
 
-		private void UpdateSubPart(CollectionMap map)
-		{
-			var collection = map.GetCollection(this._filename, this._manager, this._collection);
-			var part = collection.GetSubPart(this._subpart, this._expand);
-			part.SetValue(this._property, this._value);
+			if (this._expand is null)
+			{
+
+				collection.SetValue(this._property, this._value);
+
+			}
+			else
+			{
+
+				var part = collection.GetSubPart(this._subpart, this._expand);
+				part.SetValue(this._property, this._value);
+
+			}
 		}
 	}
 }
