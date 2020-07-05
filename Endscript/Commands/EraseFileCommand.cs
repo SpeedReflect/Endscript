@@ -6,18 +6,17 @@ using Endscript.Helpers;
 using Endscript.Exceptions;
 
 
-
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'create_folder [pathtype] [path]'.
+	/// Command of type 'erase_file [pathtype] [path]'.
 	/// </summary>
-	public class CreateFolderCommand : BaseCommand
+	public class EraseFileCommand : BaseCommand
 	{
 		private ePathType _type;
 		private string _path;
 
-		public override eCommandType Type => eCommandType.create_folder;
+		public override eCommandType Type => eCommandType.erase_file;
 
 		public override void Prepare(string[] splits)
 		{
@@ -35,14 +34,14 @@ namespace Endscript.Commands
 			{
 
 				this._path = Path.Combine(map.Directory, this._path);
-				Directory.CreateDirectory(this._path);
+				if (File.Exists(this._path)) File.Delete(this._path);
 
 			}
 			else
 			{
 
 				this._path = Path.Combine(map.Profile.Directory, this._path);
-				Directory.CreateDirectory(this._path);
+				if (File.Exists(this._path)) File.Delete(this._path);
 
 			}
 		}
