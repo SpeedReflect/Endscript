@@ -10,10 +10,11 @@ using Endscript.Exceptions;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'create_file [pathtype] [path]'.
+	/// Command of type 'create_file [creationtype] [pathtype] [path]'.
 	/// </summary>
 	public class CreateFileCommand : BaseCommand
 	{
+		private eImportType _import;
 		private ePathType _type;
 		private string _path;
 
@@ -21,12 +22,19 @@ namespace Endscript.Commands
 
 		public override void Prepare(string[] splits)
 		{
-			if (splits.Length != 3) throw new InvalidArgsNumberException(splits.Length, 3);
+			if (splits.Length != 4) throw new InvalidArgsNumberException(splits.Length, 4);
 
-			this._type = EnumConverter.StringToPathType(splits[1]);
-			if (this._type == ePathType.Invalid) throw new Exception($"Path type {splits[1]} is an invalid type");
+			if (!Enum.TryParse(splits[1], out this._import))
+			{
 
-			this._path = splits[2];
+				throw new Exception($"Unable to recognize {splits[1]} serialization type");
+
+			}
+
+			this._type = EnumConverter.StringToPathType(splits[2]);
+			if (this._type == ePathType.Invalid) throw new Exception($"Path type {splits[2]} is an invalid type");
+
+			this._path = splits[3];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -35,6 +43,9 @@ namespace Endscript.Commands
 			{
 
 				this._path = Path.Combine(map.Directory, this._path);
+
+				if (File.Exists(this._path) && this._import == eImportType.negate) return;
+
 				var directory = Path.GetDirectoryName(this._path);
 				Directory.CreateDirectory(directory);
 				File.Create(this._path);
@@ -44,6 +55,9 @@ namespace Endscript.Commands
 			{
 
 				this._path = Path.Combine(map.Profile.Directory, this._path);
+
+				if (File.Exists(this._path) && this._import == eImportType.negate) return;
+
 				var directory = Path.GetDirectoryName(this._path);
 				Directory.CreateDirectory(directory);
 				File.Create(this._path);

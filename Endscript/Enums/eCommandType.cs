@@ -23,21 +23,19 @@
 		import,
 		@new,
 		delete,
-
 		watermark,
 		create_file,
 		create_folder,
 		erase_file,
 		erase_folder,
 		move_file,
-		move_folder,
-
 		generate,
 		directory,
 		filecount,
 		capacity,
 		checkbox,
 		combobox,
+		@if,
 		end,
 	}
 }
