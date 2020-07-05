@@ -1,7 +1,9 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 
 
 
@@ -10,7 +12,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'new [type] [filename]'.
 	/// </summary>
-	public class NewCommand : BaseCommand
+	public class NewCommand : BaseCommand, ISingleParsable
 	{
 		private eImportType _type;
 		private string _filename;
@@ -35,6 +37,11 @@ namespace Endscript.Commands
 		{
 			map.Profile.New(this._type, this._filename);
 			map.LoadMapFromProfile(true);
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			profile.New(this._type, this._filename);
 		}
 	}
 }

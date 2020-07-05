@@ -6,8 +6,8 @@ using Endscript.Enums;
 using Endscript.Commands;
 using Endscript.Exceptions;
 using CoreExtensions.Text;
-
-
+using Endscript.Interfaces;
+using Endscript.Profiles;
 
 namespace Endscript.Core
 {
@@ -95,30 +95,7 @@ namespace Endscript.Core
 				}
 
 				// Get command type, parse it and add
-				BaseCommand command = type switch
-				{
-					eCommandType.update_collection => new UpdateCollectionCommand(),
-					eCommandType.update_string => new UpdateStringCommand(),
-					eCommandType.update_texture => new UpdateTextureCommand(),
-					eCommandType.add_collection => new AddCollectionCommand(),
-					eCommandType.add_string => new AddStringCommand(),
-					eCommandType.add_texture => new AddTextureCommand(),
-					eCommandType.remove_collection => new RemoveCollectionCommand(),
-					eCommandType.remove_string => new RemoveStringCommand(),
-					eCommandType.remove_texture => new RemoveTextureCommand(),
-					eCommandType.copy_collection => new CopyCollectionCommand(),
-					eCommandType.copy_texture => new CopyTextureCommand(),
-					eCommandType.replace_texture => new ReplaceTextureCommand(),
-					eCommandType.@static => new StaticCommand(),
-					eCommandType.import => new ImportCommand(),
-					eCommandType.@new => new NewCommand(),
-					eCommandType.delete => new DeleteCommand(),
-					eCommandType.checkbox => new CheckboxCommand(),
-					eCommandType.combobox => new ComboboxCommand(),
-					eCommandType.end => new EndCommand(),
-					_ => new OptionalCommand()
-				};
-
+				var command = GetCommandFromType(type);
 				command.Line = line;
 				command.Prepare(splits);
 				list.Add(command);
@@ -128,7 +105,7 @@ namespace Endscript.Core
 			return list;
 		}
 	
-		public static void ExecuteCommand(string line)
+		public static void ExecuteSingleCommand(string line, BaseProfile profile)
 		{
 			if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) return;
 			var splits = line.SmartSplitString().ToArray();
@@ -140,15 +117,50 @@ namespace Endscript.Core
 
 			}
 
-			BaseCommand command = type switch
+			var command = GetCommandFromType(type);
+			
+			if (command is ISingleParsable single)
 			{
 
+				command.Line = line;
+				command.Prepare(splits);
+				single.SingleExecution(profile);
 
+			}
+			else
+			{
 
+				throw new Exception($"Command of type {type} cannot be executed in a single-command mode");
 
+			}
+
+		}
+
+		private static BaseCommand GetCommandFromType(eCommandType type)
+		{
+			return type switch
+			{
+				eCommandType.update_collection => new UpdateCollectionCommand(),
+				eCommandType.update_string => new UpdateStringCommand(),
+				eCommandType.update_texture => new UpdateTextureCommand(),
+				eCommandType.add_collection => new AddCollectionCommand(),
+				eCommandType.add_string => new AddStringCommand(),
+				eCommandType.add_texture => new AddTextureCommand(),
+				eCommandType.remove_collection => new RemoveCollectionCommand(),
+				eCommandType.remove_string => new RemoveStringCommand(),
+				eCommandType.remove_texture => new RemoveTextureCommand(),
+				eCommandType.copy_collection => new CopyCollectionCommand(),
+				eCommandType.copy_texture => new CopyTextureCommand(),
+				eCommandType.replace_texture => new ReplaceTextureCommand(),
+				eCommandType.@static => new StaticCommand(),
+				eCommandType.import => new ImportCommand(),
+				eCommandType.@new => new NewCommand(),
+				eCommandType.delete => new DeleteCommand(),
+				eCommandType.checkbox => new CheckboxCommand(),
+				eCommandType.combobox => new ComboboxCommand(),
+				eCommandType.end => new EndCommand(),
+				_ => new OptionalCommand()
 			};
-
-
 		}
 	}
 }

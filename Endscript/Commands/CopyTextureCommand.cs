@@ -1,7 +1,9 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
@@ -13,7 +15,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'copy_texture [filename] [manager] [tpkblock] [from] [to]'.
 	/// </summary>
-	public class CopyTextureCommand : BaseCommand
+	public class CopyTextureCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -39,6 +41,24 @@ namespace Endscript.Commands
 		public override void Execute(CollectionMap map)
 		{
 			var collection = map.GetCollection(this._filename, this._manager, this._tpk);
+
+			if (collection is TPKBlock tpk)
+			{
+
+				tpk.CloneTexture(this._to, this._from, eKeyType.BINKEY);
+
+			}
+			else
+			{
+
+				throw new Exception($"Object {this._tpk} is not a TPKBlock");
+
+			}
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			var collection = this.GetManualCollection(this._filename, this._manager, this._tpk, profile);
 
 			if (collection is TPKBlock tpk)
 			{

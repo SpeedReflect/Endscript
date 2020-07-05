@@ -1,6 +1,8 @@
 ﻿using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Profiles;
 using Endscript.Exceptions;
+using Endscript.Interfaces;
 
 
 
@@ -9,7 +11,7 @@ namespace Endscript.Commands
 	/// <summary>
 	/// Command of type 'delete [filename]'.
 	/// </summary>
-	public class DeleteCommand : BaseCommand
+	public class DeleteCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 
@@ -26,6 +28,11 @@ namespace Endscript.Commands
 		{
 			map.Profile.Delete(this._filename);
 			map.LoadMapFromProfile(true);
+		}
+
+		public void SingleExecution(BaseProfile profile)
+		{
+			profile.Delete(this._filename);
 		}
 	}
 }
