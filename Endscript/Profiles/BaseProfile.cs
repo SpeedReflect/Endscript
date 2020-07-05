@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,8 @@ using Endscript.Interfaces;
 using Endscript.Exceptions;
 using Nikki.Core;
 using CoreExtensions.Management;
-using System.IO;
+
+
 
 namespace Endscript.Profiles
 {
@@ -543,7 +545,8 @@ namespace Endscript.Profiles
 
 		public void Sort()
 		{
-			Array.Sort(this._sdb, (x, y) => x.Filename.CompareTo(y.Filename));
+			if (this._size <= 1) return;
+			Array.Sort(this._sdb, 0, this._size);
 		}
 
 		public void New(eImportType type, string filename)
@@ -562,6 +565,8 @@ namespace Endscript.Profiles
 					else goto default;
 
 				default: // eImportType.@override
+					var directory = Path.GetDirectoryName(sdb.FullPath);
+					System.IO.Directory.CreateDirectory(directory);
 					File.Create(sdb.FullPath);
 					break;
 

@@ -36,10 +36,10 @@ namespace Endscript.Commands
 
 			}
 
-			var collection = manage[manage.IndexOf(cname)];
+			int index = manage.IndexOf(cname);
 
-			if (collection is Collectable result) return result;
-			else throw new LookupFailException($"Collection named {cname} does not exist");
+			if (index == -1) throw new LookupFailException($"Collection named {cname} does not exist");
+			else return manage[index] as Collectable;
 		}
 	}
 }

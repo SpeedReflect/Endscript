@@ -4,10 +4,12 @@ using System.Linq;
 using System.Collections.Generic;
 using Endscript.Enums;
 using Endscript.Commands;
-using Endscript.Exceptions;
-using CoreExtensions.Text;
-using Endscript.Interfaces;
 using Endscript.Profiles;
+using Endscript.Exceptions;
+using Endscript.Interfaces;
+using CoreExtensions.Text;
+
+
 
 namespace Endscript.Core
 {
@@ -105,9 +107,15 @@ namespace Endscript.Core
 			return list;
 		}
 	
-		public static void ExecuteSingleCommand(string line, BaseProfile profile)
+		public static eCommandType ExecuteSingleCommand(string line, BaseProfile profile)
 		{
-			if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) return;
+			if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#'))
+			{
+
+				return eCommandType.empty;
+
+			}
+
 			var splits = line.SmartSplitString().ToArray();
 
 			if (!Enum.TryParse(splits[0], out eCommandType type))
@@ -125,6 +133,7 @@ namespace Endscript.Core
 				command.Line = line;
 				command.Prepare(splits);
 				single.SingleExecution(profile);
+				return type;
 
 			}
 			else

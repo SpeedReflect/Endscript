@@ -3,6 +3,7 @@
 	public enum eCommandType : int
 	{
 		invalid,
+		empty,
 		game,
 		version,
 		append,
