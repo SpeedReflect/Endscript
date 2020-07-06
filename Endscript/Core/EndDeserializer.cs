@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Endscript.Enums;
 using Endscript.Helpers;
+using Endscript.Commands;
 using Endscript.Profiles;
 using Endscript.Exceptions;
 using CoreExtensions.Text;
@@ -49,7 +50,7 @@ namespace Endscript.Core
 			{
 
 				var line = sr.ReadLine();
-				if (line.StartsWith("//") || line.StartsWith('#')) continue;
+				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
 
 				var splits = line.SmartSplitString().ToArray();
 				if (splits.Length < 1) continue;
@@ -81,6 +82,10 @@ namespace Endscript.Core
 
 					case eCommandType.capacity:
 						this.SetManagerCapacity(splits);
+						break;
+
+					case eCommandType.@new:
+						this.MakeNewSDB(splits);
 						break;
 
 					case eCommandType.import:
@@ -155,6 +160,13 @@ namespace Endscript.Core
 			if (manager is null) throw new Exception($"Manager named {splits[2]} does not exist");
 
 			manager.Capacity += Int32.Parse(splits[3]);
+		}
+
+		private void MakeNewSDB(string[] splits)
+		{
+			var command = new NewCommand();
+			command.Prepare(splits);
+			command.SingleExecution(this._profile);
 		}
 
 		private void ImportCollection(string[] splits)

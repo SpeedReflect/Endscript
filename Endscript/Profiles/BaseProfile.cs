@@ -552,7 +552,7 @@ namespace Endscript.Profiles
 		public void New(eImportType type, string filename)
 		{
 			this.Add(filename);
-			var sdb = this._sdb[^1];
+			var sdb = this._sdb[this._size - 1];
 
 			switch (type)
 			{

@@ -23,13 +23,12 @@ namespace Endscript.Core
 
 		public void Serialize()
 		{
-			if (Directory.Exists(this._directory)) Directory.Delete(this._directory, true);
 			Directory.CreateDirectory(this._directory);
 
 			using var sw = new StreamWriter(File.Open(this._mainfile, FileMode.Create));
 
 			sw.WriteLine("[VERSN4]");
-			sw.WriteLine($"// {DateTime.Now:MM/dd/yyyy HH:mm}");
+			sw.WriteLine($"// {DateTime.Now:MM/dd/yyyy HH:mm:ss}");
 			sw.WriteLine();
 			sw.WriteLine($"game {this._profile.GameSTR}");
 			sw.WriteLine($"directory \"{this._profile.Directory}\"");
@@ -47,9 +46,11 @@ namespace Endscript.Core
 			foreach (var sdb in this._profile)
 			{
 
-				var filepath = this.ReplaceInvalidPathChars(sdb.Filename.ToUpperInvariant());
-				Directory.CreateDirectory(Path.Combine(this._directory, filepath));
-				sw.WriteLine($"new \"{sdb.Filename}\""); // write file name
+				var sdbpath = this.ReplaceInvalidPathChars(sdb.Filename.ToUpperInvariant());
+				var filepath = Path.Combine(this._directory, sdbpath);
+				if (Directory.Exists(filepath)) Directory.CreateDirectory(filepath);
+				Directory.CreateDirectory(filepath);
+				sw.WriteLine($"new synchronize \"{sdb.Filename}\""); // write file name
 
 				foreach (var manager in sdb.Database.Managers)
 				{
@@ -62,7 +63,7 @@ namespace Endscript.Core
 					{
 
 						var cnamepath = Path.Combine(managepath, collection.CollectionName) + ".BIN";
-						var actual = Path.Combine(filepath, manager.Name, collection.CollectionName) + ".BIN";
+						var actual = Path.Combine(sdbpath, manager.Name, collection.CollectionName) + ".BIN";
 						var asm = collection as IAssembly;
 
 						using (var bw = new BinaryWriter(File.Open(cnamepath, FileMode.Create)))
@@ -72,7 +73,7 @@ namespace Endscript.Core
 
 						}
 
-						sw.WriteLine($"import synchronized \"{sdb.Filename}\" \"{actual}\"");
+						sw.WriteLine($"import synchronize \"{sdb.Filename}\" \"{actual}\"");
 
 					}
 
