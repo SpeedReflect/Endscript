@@ -14,7 +14,9 @@ namespace Endscript.Commands
 	public abstract class BaseCommand
 	{
 		public abstract eCommandType Type { get; }
+		public string Filename { get; set; }
 		public string Line { get; set; }
+		public int Index { get; set; }
 
 		public abstract void Prepare(string[] splits);
 		public abstract void Execute(CollectionMap map);

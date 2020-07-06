@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Logical\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 

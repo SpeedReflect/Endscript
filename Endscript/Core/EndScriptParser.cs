@@ -71,6 +71,7 @@ namespace Endscript.Core
 
 			}
 
+			var relative = this._filename.Substring(this.Directory.Length + 1);
 			var lines = File.ReadAllLines(this._filename);
 			var list = new List<BaseCommand>(lines.Length);
 
@@ -103,10 +104,14 @@ namespace Endscript.Core
 
 				}
 
-				// Get command type, parse it and add
+				// Get command type, try preparing
 				var command = GetCommandFromType(type);
-				command.Line = line;
 				command.Prepare(splits);
+
+				// If command is correct, add it to list
+				command.Filename = relative;
+				command.Line = line;
+				command.Index = i;
 				list.Add(command);
 
 			}
