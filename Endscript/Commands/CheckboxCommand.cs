@@ -47,10 +47,5 @@ namespace Endscript.Commands
 		{
 			return option == this._options[0] || option == this._options[1];
 		}
-	
-		public void Evaluate()
-		{
-
-		}
 	}
 }

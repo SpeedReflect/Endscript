@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Endscript.Profiles;
 using Endscript.Exceptions;
@@ -30,6 +31,13 @@ namespace Endscript.Core
 			this.Directory = Path.GetDirectoryName(launcher);
 			this._map = new Dictionary<string, Collectable>();
 			this.LoadMapFromProfile(false);
+		}
+
+		~CollectionMap()
+		{
+			#if DEBUG
+			Console.WriteLine("CollectionMap destroyed");
+			#endif
 		}
 
 		private int FastEstimateCapacity()
@@ -73,7 +81,7 @@ namespace Endscript.Core
 
 			}
 
-			if (gccollect) ForcedX.GCCollect(true, true);
+			if (gccollect) ForcedX.GCCollect();
 		}
 
 		public Collectable GetCollection(string filename, string manager, string cname)

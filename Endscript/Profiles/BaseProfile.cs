@@ -66,6 +66,15 @@ namespace Endscript.Profiles
 			}
 		}
 		public SynchronizedDatabase this[string filename] => this.Find(filename);
+		~BaseProfile()
+		{
+			for (int i = 0; i < this._size; ++i) this._sdb[i] = null;
+			ForcedX.GCCollect();
+
+			#if DEBUG
+			Console.WriteLine($"Profile {this.GameINT} destroyed");
+			#endif
+		}
 
 		public int Capacity
 		{
@@ -95,14 +104,14 @@ namespace Endscript.Profiles
 					}
 
 					this._sdb = data;
-					ForcedX.GCCollect(true, true);
+					ForcedX.GCCollect();
 
 				}
 				else
 				{
 
 					this._sdb = this._empty;
-					ForcedX.GCCollect(true, true);
+					ForcedX.GCCollect();
 
 				}
 			}
@@ -586,6 +595,7 @@ namespace Endscript.Profiles
 
 			this._sdb[index].Save();
 			this.RemoveAt(index);
+			ForcedX.GCCollect();
 		}
 
 		public async void Load(Launch launch)

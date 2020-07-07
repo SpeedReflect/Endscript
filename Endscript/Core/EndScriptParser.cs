@@ -35,9 +35,16 @@ namespace Endscript.Core
 			this._filename = filename;
 		}
 
-		public IEnumerable<BaseCommand> Read()
+		~EndScriptParser()
 		{
-			return this.RecursiveRead(this._filename);
+			#if DEBUG
+			Console.WriteLine("EndScriptParser destroyed");
+			#endif
+		}
+
+		public BaseCommand[] Read()
+		{
+			return this.RecursiveRead(this._filename).ToArray();
 		}
 
 		private List<BaseCommand> RecursiveRead(string filename)
@@ -161,7 +168,6 @@ namespace Endscript.Core
 		{
 			return type switch
 			{
-				eCommandType.game => new GameCommand(),
 				eCommandType.version => new VersionCommand(),
 				eCommandType.update_collection => new UpdateCollectionCommand(),
 				eCommandType.update_string => new UpdateStringCommand(),

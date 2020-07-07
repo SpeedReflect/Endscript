@@ -1,4 +1,5 @@
-﻿using Endscript.Core;
+﻿using System;
+using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Profiles;
 using Endscript.Exceptions;
@@ -65,6 +66,7 @@ namespace Endscript.Commands
 			{
 
 				var part = collection.GetSubPart(this._subpart, this._expand);
+				if (part == null) throw new Exception($"SubPart named {this._subpart} in node {this._expand} does not exist");
 				part.SetValue(this._property, this._value);
 
 			}

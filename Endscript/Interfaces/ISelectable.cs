@@ -7,6 +7,5 @@
 		public string[] Options { get; }
 		public int ParseOption(string option);
 		public bool Contains(string option);
-		public void Evaluate();
 	}
 }

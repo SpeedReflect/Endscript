@@ -14,7 +14,6 @@ namespace Endscript.Commands
 	{
 		private string[] _options;
 		private string _description = String.Empty;
-		private int _level;
 
 		public override eCommandType Type => eCommandType.combobox;
 		public string[] Options => this._options;
@@ -25,9 +24,9 @@ namespace Endscript.Commands
 		{
 			if (splits.Length < 4) throw new Exception($"Expected at least 4 arguments, got {splits.Length}");
 
-			this._options = new string[this._level - 2];
+			this._options = new string[splits.Length - 2];
 
-			for (int i = 1; i < this._level - 1; ++i)
+			for (int i = 1; i < splits.Length - 1; ++i)
 			{
 
 				this._options[i - 1] = splits[i];
@@ -63,11 +62,6 @@ namespace Endscript.Commands
 			}
 
 			return false;
-		}
-
-		public void Evaluate()
-		{
-
 		}
 	}
 }
