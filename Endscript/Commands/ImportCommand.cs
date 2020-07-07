@@ -2,37 +2,40 @@
 using System.IO;
 using Endscript.Core;
 using Endscript.Enums;
-using Endscript.Exceptions;
 using Endscript.Helpers;
+using Endscript.Exceptions;
+using Nikki.Reflection.Abstract;
 
 
 
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'import [type] [filename] [path]'.
+	/// Command of type 'import [type] [manager] [filename] [path]'.
 	/// </summary>
 	public class ImportCommand : BaseCommand
 	{
 		private eImportType _type;
 		private string _filename;
+		private string _manager;
 		private string _path;
 
 		public override eCommandType Type => eCommandType.import;
 
 		public override void Prepare(string[] splits)
 		{
-			if (splits.Length != 4) throw new InvalidArgsNumberException(splits.Length, 4);
+			if (splits.Length != 5) throw new InvalidArgsNumberException(splits.Length, 5);
 
-			if (!Enum.TryParse(splits[1], out _type))
+			this._filename = splits[2];
+			this._manager = splits[3];
+			this._path = splits[4];
+
+			if (!Enum.TryParse(splits[1], out this._type))
 			{
 
 				throw new Exception($"Unable to recognize {splits[1]} serialization type");
 
 			}
-
-			this._filename = splits[2];
-			this._path = splits[3];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -46,6 +49,15 @@ namespace Endscript.Commands
 
 			}
 
+			var manager = sdb.Database.GetManager(this._manager);
+
+			if (manager is null)
+			{
+
+				throw new LookupFailException($"Manager named {this._manager} does not exist");
+
+			}
+
 			var path = Path.Combine(map.Directory, this._path);
 
 			if (!File.Exists(path))
@@ -56,7 +68,9 @@ namespace Endscript.Commands
 			}
 
 			using var br = new BinaryReader(File.Open(path, FileMode.Open, FileAccess.Read));
-			sdb.Database.Import(EnumConverter.ImportToSerialize(this._type), br);
+			manager.Import(EnumConverter.ImportToSerialize(this._type), br);
+			var collection = manager[^1] as Collectable; // considering it should be the last one
+			map.AddCollection(this._filename, this._manager, collection.CollectionName, collection);
 		}
 	}
 }

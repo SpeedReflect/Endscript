@@ -61,6 +61,14 @@ namespace Endscript.Commands
 
 				collection.SetValue(this._property, this._value);
 
+				if (this._property == "CollectionName")
+				{
+
+					map.RemoveCollection(this._filename, this._manager, this._collection);
+					map.AddCollection(this._filename, this._manager, this._value, collection);
+
+				}
+
 			}
 			else
 			{

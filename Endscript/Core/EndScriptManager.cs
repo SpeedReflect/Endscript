@@ -148,7 +148,8 @@ namespace Endscript.Core
 
 				}
 
-				return true;
+				if (this._stack.Count == 0) return true;
+				else throw new RuntimeAnalysisException("Closing 'end' command was never found");
 
 			}
 			catch (RuntimeAnalysisException runtime) { throw runtime; }
@@ -162,6 +163,10 @@ namespace Endscript.Core
 			{
 
 				command.Execute(this._map);
+
+				#if DEBUG
+				Console.WriteLine($"Executing [{command.Line}]");
+				#endif
 
 			}
 			catch (Exception e)
