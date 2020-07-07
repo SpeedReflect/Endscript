@@ -67,9 +67,12 @@ namespace Endscript.Commands
 
 			}
 
+			var count = manager.Count;
 			using var br = new BinaryReader(File.Open(path, FileMode.Open, FileAccess.Read));
 			manager.Import(EnumConverter.ImportToSerialize(this._type), br);
-			var collection = manager[^1] as Collectable; // considering it should be the last one
+
+			if (manager.Count == count) return; // if was override/negated/synchronized
+			var collection = manager[^1] as Collectable; // if entirely new, add to the map
 			map.AddCollection(this._filename, this._manager, collection.CollectionName, collection);
 		}
 	}
