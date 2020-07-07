@@ -22,7 +22,7 @@ namespace Endscript.Commands
 
 		public override void Prepare(string[] splits)
 		{
-			if (splits.Length != 4) throw new InvalidArgsNumberException(splits.Length, 4);
+			if (splits.Length != 5) throw new InvalidArgsNumberException(splits.Length, 5);
 
 			this._filename = splits[1];
 			this._manager = splits[2];
