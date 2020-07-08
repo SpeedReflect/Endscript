@@ -89,7 +89,7 @@ namespace Endscript.Core
 
 						// We have to make user make selection by returnin false;
 						// once user calls function back, we can continue executing
-						if (select is IfStatementCommand ifstate) ifstate.Evaluate();
+						if (select is IfStatementCommand ifstate) ifstate.Execute(this._map);
 						else if (this._waiting_selection) this._waiting_selection = false;
 						else { this._waiting_selection = true; return false; }
 

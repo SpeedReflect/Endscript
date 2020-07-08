@@ -4,6 +4,7 @@ using Endscript.Enums;
 using Endscript.Profiles;
 using Endscript.Exceptions;
 using Endscript.Interfaces;
+using Nikki.Utils;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
 
@@ -19,7 +20,7 @@ namespace Endscript.Commands
 		private string _filename;
 		private string _manager;
 		private string _str;
-		private uint _record;
+		private string _record;
 
 		public override eCommandType Type => eCommandType.remove_string;
 
@@ -30,9 +31,7 @@ namespace Endscript.Commands
 			this._filename = splits[1];
 			this._manager = splits[2];
 			this._str = splits[3];
-
-			if (splits[4].IsHexString()) this._record = Convert.ToUInt32(splits[4], 16);
-			else throw new Exception($"Value {splits[4]} cannot be converted to a hexadecimal key");
+			this._record = splits[4];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -42,7 +41,11 @@ namespace Endscript.Commands
 			if (collection is STRBlock str)
 			{
 
-				str.RemoveRecord(this._record);
+				var key = this._record.IsHexString()
+					? Convert.ToUInt32(this._record, 16)
+					: this._record.BinHash();
+
+				str.RemoveRecord(key);
 
 			}
 			else
