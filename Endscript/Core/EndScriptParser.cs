@@ -58,7 +58,7 @@ namespace Endscript.Core
 
 			}
 
-			using (var sr = new StreamReader(this._filename))
+			using (var sr = new StreamReader(filename))
 			{
 
 				var read = sr.ReadLine();
@@ -78,8 +78,8 @@ namespace Endscript.Core
 
 			}
 
-			var relative = this._filename.Substring(this.Directory.Length + 1);
-			var lines = File.ReadAllLines(this._filename);
+			var relative = filename.Substring(this.Directory.Length + 1);
+			var lines = File.ReadAllLines(filename);
 			var list = new List<BaseCommand>(lines.Length);
 
 			// Start with line 1 b/c line 0 is VERSN line
@@ -168,31 +168,33 @@ namespace Endscript.Core
 		{
 			return type switch
 			{
-				eCommandType.version => new VersionCommand(),
-				eCommandType.update_collection => new UpdateCollectionCommand(),
-				eCommandType.update_string => new UpdateStringCommand(),
-				eCommandType.update_texture => new UpdateTextureCommand(),
 				eCommandType.add_collection => new AddCollectionCommand(),
 				eCommandType.add_string => new AddStringCommand(),
 				eCommandType.add_texture => new AddTextureCommand(),
+				eCommandType.checkbox => new CheckboxCommand(),
+				eCommandType.combobox => new ComboboxCommand(),
+				eCommandType.copy_collection => new CopyCollectionCommand(),
+				eCommandType.copy_texture => new CopyTextureCommand(),
+				eCommandType.create_file => new CreateFileCommand(),
+				eCommandType.create_folder => new CreateFolderCommand(),
+				eCommandType.delete => new DeleteCommand(),
+				eCommandType.end => new EndCommand(),
+				eCommandType.erase_file => new EraseFileCommand(),
+				eCommandType.erase_folder => new EraseFolderCommand(),
+				eCommandType.@if => new IfStatementCommand(),
+				eCommandType.import => new ImportCommand(),
+				eCommandType.move_file => new MoveFileCommand(),
+				eCommandType.@new => new NewCommand(),
 				eCommandType.remove_collection => new RemoveCollectionCommand(),
 				eCommandType.remove_string => new RemoveStringCommand(),
 				eCommandType.remove_texture => new RemoveTextureCommand(),
-				eCommandType.copy_collection => new CopyCollectionCommand(),
-				eCommandType.copy_texture => new CopyTextureCommand(),
 				eCommandType.replace_texture => new ReplaceTextureCommand(),
 				eCommandType.@static => new StaticCommand(),
-				eCommandType.import => new ImportCommand(),
-				eCommandType.@new => new NewCommand(),
-				eCommandType.delete => new DeleteCommand(),
-				eCommandType.create_file => new CreateFileCommand(),
-				eCommandType.create_folder => new CreateFolderCommand(),
-				eCommandType.erase_file => new EraseFileCommand(),
-				eCommandType.erase_folder => new EraseFolderCommand(),
-				eCommandType.move_file => new MoveFileCommand(),
-				eCommandType.checkbox => new CheckboxCommand(),
-				eCommandType.combobox => new ComboboxCommand(),
-				eCommandType.end => new EndCommand(),
+				eCommandType.update_collection => new UpdateCollectionCommand(),
+				eCommandType.update_string => new UpdateStringCommand(),
+				eCommandType.update_texture => new UpdateTextureCommand(),
+				eCommandType.version => new VersionCommand(),
+				eCommandType.watermark => new WatermarkCommand(),
 				_ => new OptionalCommand()
 			};
 		}

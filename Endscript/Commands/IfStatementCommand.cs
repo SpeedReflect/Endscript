@@ -1,9 +1,8 @@
 ﻿using System;
-
-using Endscript.Commands.Logical;
 using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Interfaces;
+using Endscript.Commands.Logical;
 
 
 
