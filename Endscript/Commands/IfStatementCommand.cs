@@ -1,4 +1,6 @@
 ﻿using System;
+
+using Endscript.Commands.Logical;
 using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Interfaces;
@@ -35,10 +37,17 @@ namespace Endscript.Commands
 
 			this._logical = logic switch
 			{
-
-
+				eLogicType.texture_exists => new TextureExistsLogicalCheck(),
+				eLogicType.string_exists => new StringExistsLogicalCheck(),
+				eLogicType.file_exists => new FileExistsLogicalCheck(),
+				eLogicType.directory_exists => new DirectoryExistsLogicalCheck(),
+				eLogicType.collection_value_equals => new CollectionValueEqualsLogicalCheck(),
+				eLogicType.texture_value_equals => new TextureValueEqualsLogicalCheck(),
+				eLogicType.string_value_equals => new StringValueEqualsLogicalCheck(),
+				_ => new CollectionExistsLogicalCheck(),
 			};
 
+			this._logical.Parse(splits);
 		}
 
 		public override void Execute(CollectionMap map)
@@ -46,7 +55,19 @@ namespace Endscript.Commands
 			this.Choice = this._logical.Evaluate(map) ? 1 : 0;
 		}
 
-		public int ParseOption(string option) => throw new NotImplementedException();
-		public bool Contains(string option) => throw new NotImplementedException();
+		public int ParseOption(string option)
+		{
+			return option switch
+			{
+				"else" => 0,
+				"do" => 1,
+				_ => -1
+			};
+		}
+
+		public bool Contains(string option)
+		{
+			return option == this._options[0] || option == this._options[1];
+		}
 	}
 }
