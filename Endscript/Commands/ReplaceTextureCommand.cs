@@ -3,6 +3,7 @@ using System.IO;
 using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Exceptions;
+using Nikki.Utils;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
@@ -19,7 +20,7 @@ namespace Endscript.Commands
 		private string _filename;
 		private string _manager;
 		private string _tpk;
-		private uint _texture;
+		private string _texture;
 		private string _path;
 
 		public override eCommandType Type => eCommandType.replace_texture;
@@ -31,10 +32,8 @@ namespace Endscript.Commands
 			this._filename = splits[1];
 			this._manager = splits[2];
 			this._tpk = splits[3];
+			this._texture = splits[4];
 			this._path = splits[5];
-
-			if (splits[4].IsHexString()) this._texture = Convert.ToUInt32(splits[4], 16);
-			else throw new Exception($"Value {splits[4]} cannot be converted to a hexadecimal key");
 		}
 
 		public override void Execute(CollectionMap map)
@@ -44,8 +43,12 @@ namespace Endscript.Commands
 			if (collection is TPKBlock tpk)
 			{
 
+				var key = this._texture.IsHexString()
+					? Convert.ToUInt32(this._texture, 16)
+					: this._texture.BinHash();
+
 				var path = Path.Combine(map.Directory, this._path);
-				tpk.ReplaceTexture(this._texture, eKeyType.BINKEY, path);
+				tpk.ReplaceTexture(key, eKeyType.BINKEY, path);
 
 			}
 			else

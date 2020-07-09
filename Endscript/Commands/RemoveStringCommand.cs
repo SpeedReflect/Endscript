@@ -63,7 +63,11 @@ namespace Endscript.Commands
 			if (collection is STRBlock str)
 			{
 
-				str.RemoveRecord(this._record);
+				var key = this._record.IsHexString()
+					? Convert.ToUInt32(this._record, 16)
+					: this._record.BinHash();
+
+				str.RemoveRecord(key);
 
 			}
 			else

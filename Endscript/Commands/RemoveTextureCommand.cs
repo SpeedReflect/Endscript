@@ -4,6 +4,7 @@ using Endscript.Enums;
 using Endscript.Profiles;
 using Endscript.Exceptions;
 using Endscript.Interfaces;
+using Nikki.Utils;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
@@ -20,7 +21,7 @@ namespace Endscript.Commands
 		private string _filename;
 		private string _manager;
 		private string _tpk;
-		private uint _texture;
+		private string _texture;
 
 		public override eCommandType Type => eCommandType.remove_texture;
 
@@ -31,9 +32,7 @@ namespace Endscript.Commands
 			this._filename = splits[1];
 			this._manager = splits[2];
 			this._tpk = splits[3];
-
-			if (splits[4].IsHexString()) this._texture = Convert.ToUInt32(splits[4], 16);
-			else throw new Exception($"Value {splits[4]} cannot be converted to a hexadecimal key");
+			this._texture = splits[4];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -43,7 +42,11 @@ namespace Endscript.Commands
 			if (collection is TPKBlock tpk)
 			{
 
-				tpk.RemoveTexture(this._texture, eKeyType.BINKEY);
+				var key = this._texture.IsHexString()
+					? Convert.ToUInt32(this._texture, 16)
+					: this._texture.BinHash();
+
+				tpk.RemoveTexture(key, eKeyType.BINKEY);
 
 			}
 			else
@@ -61,7 +64,11 @@ namespace Endscript.Commands
 			if (collection is TPKBlock tpk)
 			{
 
-				tpk.RemoveTexture(this._texture, eKeyType.BINKEY);
+				var key = this._texture.IsHexString()
+					? Convert.ToUInt32(this._texture, 16)
+					: this._texture.BinHash();
+
+				tpk.RemoveTexture(key, eKeyType.BINKEY);
 
 			}
 			else

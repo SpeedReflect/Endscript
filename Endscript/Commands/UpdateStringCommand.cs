@@ -76,12 +76,16 @@ namespace Endscript.Commands
 			if (collection is STRBlock str)
 			{
 
-				var record = str.GetRecord(this._record);
+				var key = this._record.IsHexString()
+					? Convert.ToUInt32(this._record, 16)
+					: this._record.BinHash();
+
+				var record = str.GetRecord(key);
 
 				if (record is null)
 				{
 
-					throw new LookupFailException($"String with key 0x{this._record:X8} does not exist");
+					throw new LookupFailException($"String with key 0x{key:X8} does not exist");
 
 				}
 
