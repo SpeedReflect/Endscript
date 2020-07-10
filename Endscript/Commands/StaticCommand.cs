@@ -24,7 +24,7 @@ namespace Endscript.Commands
 		{
 			if (splits.Length != 5) throw new InvalidArgsNumberException(splits.Length, 5);
 
-			this._filename = splits[1];
+			this._filename = splits[1].ToUpperInvariant();
 			this._manager = splits[2];
 			this._property = splits[3];
 			this._value = splits[4];

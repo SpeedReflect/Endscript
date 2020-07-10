@@ -21,7 +21,7 @@ namespace Endscript.Commands
 		{
 			if (splits.Length != 2) throw new InvalidArgsNumberException(splits.Length, 2);
 
-			this._filename = splits[1];
+			this._filename = splits[1].ToUpperInvariant();
 		}
 
 		public override void Execute(CollectionMap map)

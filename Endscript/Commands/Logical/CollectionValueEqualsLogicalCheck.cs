@@ -28,7 +28,7 @@ namespace Endscript.Commands.Logical
 			switch (splits.Length)
 			{
 				case 7:
-					this._filename = splits[2];
+					this._filename = splits[2].ToUpperInvariant();
 					this._manager = splits[3];
 					this._collection = splits[4];
 					this._property = splits[5];
@@ -36,7 +36,7 @@ namespace Endscript.Commands.Logical
 					return;
 
 				case 9:
-					this._filename = splits[2];
+					this._filename = splits[2].ToUpperInvariant();
 					this._manager = splits[3];
 					this._collection = splits[4];
 					this._expand = splits[5];

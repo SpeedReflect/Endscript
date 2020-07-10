@@ -3,6 +3,7 @@ using Endscript.Core;
 using Endscript.Enums;
 using Endscript.Exceptions;
 using Endscript.Interfaces;
+using Nikki.Utils;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
 using CoreExtensions.Text;
@@ -16,7 +17,7 @@ namespace Endscript.Commands.Logical
 		private string _filename;
 		private string _manager;
 		private string _tpk;
-		private uint _texture;
+		private string _texture;
 		private string _property;
 		private string _value;
 
@@ -28,14 +29,12 @@ namespace Endscript.Commands.Logical
 
 			if (splits.Length != 8) throw new InvalidArgsNumberException(splits.Length, 8);
 
-			this._filename = splits[2];
+			this._filename = splits[2].ToUpperInvariant();
 			this._manager = splits[3];
 			this._tpk = splits[4];
+			this._texture = splits[5];
 			this._property = splits[6];
 			this._value = splits[7];
-
-			if (splits[5].IsHexString()) this._texture = Convert.ToUInt32(splits[5], 16);
-			else throw new Exception($"Value {splits[5]} cannot be converted to a hexadecimal key");
 		}
 
 		public bool Evaluate(CollectionMap map)
@@ -43,9 +42,13 @@ namespace Endscript.Commands.Logical
 			try
 			{
 
+				var key = this._texture.IsHexString()
+					? Convert.ToUInt32(this._texture, 16)
+					: this._texture.BinHash();
+
 				var collection = map.GetCollection(this._filename, this._manager, this._tpk);
 				var tpk = collection as TPKBlock;
-				var check = tpk.FindTexture(this._texture, eKeyType.BINKEY).GetValue(this._property);
+				var check = tpk.FindTexture(key, eKeyType.BINKEY).GetValue(this._property);
 				return String.Compare(check, this._value, StringComparison.Ordinal) == 0;
 
 			}

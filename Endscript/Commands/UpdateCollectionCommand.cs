@@ -29,7 +29,7 @@ namespace Endscript.Commands
 			switch (splits.Length)
 			{
 				case 6:
-					this._filename = splits[1];
+					this._filename = splits[1].ToUpperInvariant();
 					this._manager = splits[2];
 					this._collection = splits[3];
 					this._property = splits[4];
@@ -37,7 +37,7 @@ namespace Endscript.Commands
 					return;
 
 				case 8:
-					this._filename = splits[1];
+					this._filename = splits[1].ToUpperInvariant();
 					this._manager = splits[2];
 					this._collection = splits[3];
 					this._expand = splits[4];

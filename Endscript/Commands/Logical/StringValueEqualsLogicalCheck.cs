@@ -28,7 +28,7 @@ namespace Endscript.Commands.Logical
 
 			if (splits.Length != 8) throw new InvalidArgsNumberException(splits.Length, 8);
 
-			this._filename = splits[2];
+			this._filename = splits[2].ToUpperInvariant();
 			this._manager = splits[3];
 			this._str = splits[4];
 			this._record = splits[5];

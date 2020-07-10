@@ -30,7 +30,7 @@ namespace Endscript.Commands
 
 			}
 
-			this._filename = splits[2];
+			this._filename = splits[2].ToUpperInvariant();
 		}
 
 		public override void Execute(CollectionMap map)

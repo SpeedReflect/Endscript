@@ -23,7 +23,7 @@ namespace Endscript.Commands
 		{
 			if (splits.Length != 4) throw new InvalidArgsNumberException(splits.Length, 4);
 
-			this._filename = splits[1];
+			this._filename = splits[1].ToUpperInvariant();
 			this._manager = splits[2];
 			this._collection = splits[3];
 		}
