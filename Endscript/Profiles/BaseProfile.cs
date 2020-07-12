@@ -186,6 +186,7 @@ namespace Endscript.Profiles
 			{
 				GameINT.Carbon => new CarbonProfile(directory),
 				GameINT.MostWanted => new MostWantedProfile(directory),
+				GameINT.Underground2 => new Underground2Profile(directory),
 				GameINT.Prostreet => new ProstreetProfile(directory),
 				_ => throw new InvalidGameException(game)
 			};
