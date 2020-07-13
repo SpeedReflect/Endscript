@@ -55,7 +55,7 @@ namespace Endscript.Commands
 				if (texture is null)
 				{
 
-					throw new LookupFailException($"Texture with key 0x{this._texture:X8} does not exist");
+					throw new LookupFailException($"Texture with key 0x{key:X8} does not exist");
 
 				}
 
@@ -86,7 +86,7 @@ namespace Endscript.Commands
 				if (texture is null)
 				{
 
-					throw new LookupFailException($"Texture with key 0x{this._texture:X8} does not exist");
+					throw new LookupFailException($"Texture with key 0x{key:X8} does not exist");
 
 				}
 

@@ -19,6 +19,7 @@
 		copy_collection,
 		copy_texture,
 		replace_texture,
+		bind_textures,
 		@static,
 		import,
 		@new,

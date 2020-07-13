@@ -171,6 +171,7 @@ namespace Endscript.Core
 				eCommandType.add_collection => new AddCollectionCommand(),
 				eCommandType.add_string => new AddStringCommand(),
 				eCommandType.add_texture => new AddTextureCommand(),
+				eCommandType.bind_textures => new BindTexturesCommand(),
 				eCommandType.checkbox => new CheckboxCommand(),
 				eCommandType.combobox => new ComboboxCommand(),
 				eCommandType.copy_collection => new CopyCollectionCommand(),
