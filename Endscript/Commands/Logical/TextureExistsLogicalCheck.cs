@@ -44,7 +44,7 @@ namespace Endscript.Commands.Logical
 
 				var collection = map.GetCollection(this._filename, this._manager, this._tpk);
 				var tpk = collection as TPKBlock;
-				return !(tpk.FindTexture(key, eKeyType.BINKEY) is null);
+				return !(tpk.FindTexture(key, KeyType.BINKEY) is null);
 
 			}
 			catch { return false; }

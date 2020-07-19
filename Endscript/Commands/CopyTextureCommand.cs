@@ -48,7 +48,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._from, 16)
 					: this._from.BinHash();
 
-				tpk.CloneTexture(this._to, key, eKeyType.BINKEY);
+				tpk.CloneTexture(this._to, key, KeyType.BINKEY);
 
 			}
 			else
@@ -70,7 +70,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._from, 16)
 					: this._from.BinHash();
 
-				tpk.CloneTexture(this._to, key, eKeyType.BINKEY);
+				tpk.CloneTexture(this._to, key, KeyType.BINKEY);
 
 			}
 			else

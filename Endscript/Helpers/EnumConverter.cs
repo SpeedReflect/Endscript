@@ -10,13 +10,13 @@ namespace Endscript.Helpers
 {
 	internal static class EnumConverter
 	{
-		public static eSerializeType ImportToSerialize(eImportType type)
+		public static SerializeType ImportToSerialize(eImportType type)
 		{
 			return type switch
 			{
-				eImportType.negate => eSerializeType.Negate,
-				eImportType.synchronize => eSerializeType.Synchronize,
-				_ => eSerializeType.Override
+				eImportType.negate => SerializeType.Negate,
+				eImportType.synchronize => SerializeType.Synchronize,
+				_ => SerializeType.Override
 			};
 		}
 	

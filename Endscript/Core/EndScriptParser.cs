@@ -20,6 +20,10 @@ namespace Endscript.Core
 		private const string VERSN2 = "[VERSN2]";
 		private const string VERSN3 = "[VERSN3]";
 
+		public string CurrentFile { get; private set; } = String.Empty;
+		public string CurrentLine { get; private set; } = String.Empty;
+		public int CurrentIndex { get; private set; } = -1;
+
 		/// <summary>
 		/// Directory of the launcher endscript passed.
 		/// </summary>
@@ -79,6 +83,7 @@ namespace Endscript.Core
 			}
 
 			var relative = filename.Substring(this.Directory.Length + 1);
+			this.CurrentFile = relative;
 			var lines = File.ReadAllLines(filename);
 			var list = new List<BaseCommand>(lines.Length);
 
@@ -89,8 +94,10 @@ namespace Endscript.Core
 				var line = lines[i];
 				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
 
-				var splits = line.SmartSplitString().ToArray();
+				this.CurrentLine = line;
+				this.CurrentIndex = i + 1;
 
+				var splits = line.SmartSplitString().ToArray();
 				if (!Enum.TryParse(splits[0], out eCommandType type)) type = eCommandType.invalid;
 
 				// Flatten all endscripts into one by merging them together via append commands
@@ -118,7 +125,7 @@ namespace Endscript.Core
 				// If command is correct, add it to list
 				command.Filename = relative;
 				command.Line = line;
-				command.Index = i;
+				command.Index = i + 1;
 				list.Add(command);
 
 			}

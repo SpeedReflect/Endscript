@@ -48,7 +48,7 @@ namespace Endscript.Commands.Logical
 
 				var collection = map.GetCollection(this._filename, this._manager, this._tpk);
 				var tpk = collection as TPKBlock;
-				var check = tpk.FindTexture(key, eKeyType.BINKEY).GetValue(this._property);
+				var check = tpk.FindTexture(key, KeyType.BINKEY).GetValue(this._property);
 				return String.Compare(check, this._value, StringComparison.Ordinal) == 0;
 
 			}

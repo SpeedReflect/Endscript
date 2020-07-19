@@ -596,11 +596,13 @@ namespace Endscript.Profiles
 
 			this._sdb[index].Save();
 			this.RemoveAt(index);
+			this.SaveHashList();
 			ForcedX.GCCollect();
 		}
 
 		public async void Load(Launch launch)
 		{
+			this.LoadHashList();
 			launch.LoadLinks();
 			if (launch.Files.Count == 0) return;
 			launch.CheckFiles();
@@ -631,7 +633,12 @@ namespace Endscript.Profiles
 			}
 
 			await Task.WhenAll(tasks);
+			this.SaveHashList();
 		}
+
+		public abstract void LoadHashList();
+
+		public abstract void SaveHashList();
 
 		public void Serialize(string filename)
 		{

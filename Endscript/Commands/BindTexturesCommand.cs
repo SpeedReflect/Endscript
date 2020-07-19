@@ -6,11 +6,15 @@ using Endscript.Exceptions;
 using Nikki.Utils;
 using Nikki.Reflection.Enum;
 using Nikki.Support.Shared.Class;
+using CoreExtensions.Management;
 
 
 
 namespace Endscript.Commands
 {
+	/// <summary>
+	/// Command of type 'bind_textures [type] [filename] [manager] [tpkblock] [path]'.
+	/// </summary>
 	public class BindTexturesCommand : BaseCommand
 	{
 		private eImportType _type;
@@ -67,27 +71,49 @@ namespace Endscript.Commands
 
 		private void BindTextures(string directory, TPKBlock tpk)
 		{
-			foreach (var file in Directory.GetFiles(directory))
+			string current = String.Empty;
+
+			try
 			{
 
-				var name = Path.GetFileNameWithoutExtension(file);
-				var key = name.BinHash();
-				var texture = tpk.FindTexture(key, eKeyType.BINKEY);
-
-				if (texture is null)
+				foreach (var file in Directory.GetFiles(directory))
 				{
 
-					tpk.AddTexture(name, file);
+					current = file;
+					var name = Path.GetFileNameWithoutExtension(file);
+					var key = name.BinHash();
+					var texture = tpk.FindTexture(key, KeyType.BINKEY);
+
+					if (texture is null)
+					{
+
+						tpk.AddTexture(name, file);
+
+					}
+					else if (this._type == eImportType.synchronize)
+					{
+
+						texture.Reload(file);
+
+					}
+					else if (this._type == eImportType.@override)
+					{
+
+						tpk.RemoveTexture(key, KeyType.BINKEY);
+						tpk.AddTexture(name, file);
+
+					}
 
 				}
-				else if (this._type == eImportType.synchronize || this._type == eImportType.@override)
-				{
 
-					tpk.RemoveTexture(key, eKeyType.BINKEY);
-					tpk.AddTexture(name, file);
+			}
+			catch (Exception e)
+			{
 
-				}
-				
+				var error = e.GetLowestMessage();
+				error = $"Texture {current} : {error}";
+				throw new Exception(error);
+
 			}
 		}
 	}

@@ -50,7 +50,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._texture, 16)
 					: this._texture.BinHash();
 
-				var texture = tpk.FindTexture(key, eKeyType.BINKEY);
+				var texture = tpk.FindTexture(key, KeyType.BINKEY);
 				
 				if (texture is null)
 				{
@@ -81,7 +81,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._texture, 16)
 					: this._texture.BinHash();
 
-				var texture = tpk.FindTexture(key, eKeyType.BINKEY);
+				var texture = tpk.FindTexture(key, KeyType.BINKEY);
 
 				if (texture is null)
 				{

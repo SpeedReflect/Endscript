@@ -48,7 +48,7 @@ namespace Endscript.Commands
 					: this._texture.BinHash();
 
 				var path = Path.Combine(map.Directory, this._path);
-				tpk.ReplaceTexture(key, eKeyType.BINKEY, path);
+				tpk.ReplaceTexture(key, KeyType.BINKEY, path);
 
 			}
 			else

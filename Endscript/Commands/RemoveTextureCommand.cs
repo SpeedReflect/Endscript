@@ -46,7 +46,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._texture, 16)
 					: this._texture.BinHash();
 
-				tpk.RemoveTexture(key, eKeyType.BINKEY);
+				tpk.RemoveTexture(key, KeyType.BINKEY);
 
 			}
 			else
@@ -68,7 +68,7 @@ namespace Endscript.Commands
 					? Convert.ToUInt32(this._texture, 16)
 					: this._texture.BinHash();
 
-				tpk.RemoveTexture(key, eKeyType.BINKEY);
+				tpk.RemoveTexture(key, KeyType.BINKEY);
 
 			}
 			else
