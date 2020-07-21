@@ -11,27 +11,29 @@ using Nikki.Support.Shared.Class;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'remove_incareer [filename] [manager] [gcareer] [root] [collection]'.
+	/// Command of type 'copy_incareer [filename] [manager] [gcareer] [root] [from] [to]'.
 	/// </summary>
-	public class RemoveInCareerCommand : BaseCommand, ISingleParsable
+	public class CopyInCareerCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
 		private string _gcareer;
 		private string _root;
-		private string _collection;
+		private string _from;
+		private string _to;
 
-		public override eCommandType Type => eCommandType.remove_incareer;
+		public override eCommandType Type => eCommandType.copy_incareer;
 
 		public override void Prepare(string[] splits)
 		{
-			if (splits.Length != 6) throw new InvalidArgsNumberException(splits.Length, 6);
+			if (splits.Length != 7) throw new InvalidArgsNumberException(splits.Length, 7);
 
 			this._filename = splits[1].ToUpperInvariant();
 			this._manager = splits[2];
 			this._gcareer = splits[3];
 			this._root = splits[4];
-			this._collection = splits[5];
+			this._from = splits[5];
+			this._to = splits[6];
 		}
 
 		public override void Execute(CollectionMap map)
@@ -41,7 +43,7 @@ namespace Endscript.Commands
 			if (collection is GCareer gcareer)
 			{
 
-				gcareer.RemoveCollection(this._collection, this._root);
+				gcareer.CloneCollection(this._to, this._from, this._root);
 
 			}
 			else
@@ -59,7 +61,7 @@ namespace Endscript.Commands
 			if (collection is GCareer gcareer)
 			{
 
-				gcareer.RemoveCollection(this._collection, this._root);
+				gcareer.CloneCollection(this._to, this._from, this._root);
 
 			}
 			else
