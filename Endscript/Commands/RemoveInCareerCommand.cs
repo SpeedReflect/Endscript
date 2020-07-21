@@ -11,9 +11,9 @@ using Nikki.Support.Shared.Class;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'add_incareer [filename] [manager] [gcareer] [root] [collection]'.
+	/// Command of type 'remove_texture [filename] [manager] [gcareer] [root] [collection]'.
 	/// </summary>
-	public class AddInCareerCommand : BaseCommand, ISingleParsable
+	public class RemoveInCareerCommand : BaseCommand, ISingleParsable
 	{
 		private string _filename;
 		private string _manager;
@@ -21,7 +21,7 @@ namespace Endscript.Commands
 		private string _root;
 		private string _collection;
 
-		public override eCommandType Type => eCommandType.add_incareer;
+		public override eCommandType Type => eCommandType.remove_incareer;
 
 		public override void Prepare(string[] splits)
 		{
@@ -41,7 +41,7 @@ namespace Endscript.Commands
 			if (collection is GCareer gcareer)
 			{
 
-				gcareer.AddCollection(this._collection, this._root);
+				gcareer.RemoveCollection(this._collection, this._root);
 
 			}
 			else
@@ -59,7 +59,7 @@ namespace Endscript.Commands
 			if (collection is GCareer gcareer)
 			{
 
-				gcareer.AddCollection(this._collection, this._root);
+				gcareer.RemoveCollection(this._collection, this._root);
 
 			}
 			else
