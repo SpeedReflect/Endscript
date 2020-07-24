@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Description>Library for managing, parsing, and generating End commands based on Nikki class library.</Description>
+    <Company />
+    <Authors>MaxHwoy</Authors>
+    <Version>1.1.4</Version>
+    <Copyright>Copyright © 2020 MaxHwoy</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,6 +24,12 @@
 
   <ItemGroup>
     <Folder Include="Utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CoreExtensions">
+      <HintPath>..\..\Nikki\Nikki\CoreExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
