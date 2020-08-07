@@ -22,6 +22,23 @@ namespace Endscript.Commands
 		public int Choice { get; set; }
 		public int LastCommand { get; set; }
 
+		public OptionState this[string name]
+		{
+			get
+			{
+
+				for (int i = 0; i < this._options.Length; ++i)
+				{
+
+					if (this._options[i].Name == name) return this._options[i];
+
+				}
+
+				return null;
+
+			}
+		}
+
 		public override void Prepare(string[] splits)
 		{
 			if (splits.Length < 4) throw new Exception($"Expected at least 4 arguments, got {splits.Length}");

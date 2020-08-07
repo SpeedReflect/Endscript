@@ -27,9 +27,21 @@ namespace Endscript.Commands
 		{
 			this._options = new OptionState[2]
 			{
-				new OptionState("do"),
 				new OptionState("else"),
+				new OptionState("do"),
 			};
+		}
+
+		public OptionState this[string name]
+		{
+			get
+			{
+
+				if (this._options[0].Name == name) return this._options[0];
+				else if (this._options[1].Name == name) return this._options[1];
+				return null;
+
+			}
 		}
 
 		public override void Prepare(string[] splits)

@@ -12,5 +12,6 @@ namespace Endscript.Interfaces
 		public OptionState[] Options { get; }
 		public int ParseOption(string option);
 		public bool Contains(string option);
+		public OptionState this[string name] { get; }
 	}
 }

@@ -95,22 +95,9 @@ namespace Endscript.Core
 						else { this._waiting_selection = true; return false; }
 
 						this._stack.Push(select); // set selectable to find
-
-						while (this._index < this._commands.Length) // bound it
-						{
-
-							// traverse till we find matching option
-							var next = this._commands[++this._index]; // get next command
-
-							if (next is OptionalCommand optional && // if matches, break
-								select.Choice == select.ParseOption(optional.Option))
-							{
-
-								break;
-
-							}
-
-						}
+						var option = select.Options[select.Choice];
+						this._index = option.Start;
+						if (this._index == -1) throw new Exception($"Missing optional command '{option.Name}'");
 
 					}
 
@@ -122,6 +109,7 @@ namespace Endscript.Core
 						if (peek.Contains(optional.Option))
 						{
 
+							if (peek.LastCommand == -1) throw new IndexOutOfRangeException();
 							this._index = peek.LastCommand;
 							this._stack.Pop();
 
@@ -160,6 +148,14 @@ namespace Endscript.Core
 
 					jumpstack.Push(selectable);
 					continue;
+
+				}
+
+				else if (command is OptionalCommand optional)
+				{
+
+					var peek = jumpstack.Peek();
+					if (peek.Contains(optional.Option)) peek[optional.Option].Start = i;
 
 				}
 

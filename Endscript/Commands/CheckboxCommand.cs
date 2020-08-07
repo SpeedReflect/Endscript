@@ -32,6 +32,18 @@ namespace Endscript.Commands
 			};
 		}
 
+		public OptionState this[string name]
+		{
+			get
+			{
+
+				if (this._options[0].Name == name) return this._options[0];
+				else if (this._options[1].Name == name) return this._options[1];
+				return null;
+
+			}
+		}
+
 		public override void Prepare(string[] splits)
 		{
 			if (splits.Length != 2) throw new InvalidArgsNumberException(splits.Length, 2);
