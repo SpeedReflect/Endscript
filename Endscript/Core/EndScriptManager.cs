@@ -39,6 +39,7 @@ namespace Endscript.Core
 			this._commands = commands;
 			this._map = new CollectionMap(profile, launcher);
 			this._index = 0;
+			this.CommandChase();
 		}
 
 		~EndScriptManager()
@@ -118,26 +119,14 @@ namespace Endscript.Core
 
 						var peek = this._stack.Peek(); // get last ISelectable
 
-						if (peek.Contains(optional.Option)) // if contains
+						if (peek.Contains(optional.Option))
 						{
 
-							while (this._index < this._commands.Length) // bound it
-							{
-
-								// we traverse till we find end command
-								var next = this._commands[++this._index];
-
-								if (next is EndCommand final)
-								{
-
-									this._stack.Pop(); // pop from the stack
-									break;
-
-								}
-
-							}
+							this._index = peek.LastCommand;
+							this._stack.Pop();
 
 						}
+
 						else this.ExecuteSingle(command);
 
 					}
@@ -155,6 +144,34 @@ namespace Endscript.Core
 			catch (RuntimeAnalysisException runtime) { throw runtime; }
 			catch (IndexOutOfRangeException) { throw new Exception("Unable to find end to a selectable statement"); }
 			catch (Exception ex) { throw ex; }
+		}
+
+		private void CommandChase()
+		{
+			var jumpstack = new Stack<ISelectable>();
+
+			for (int i = 0; i < this._commands.Length; ++i)
+			{
+
+				var command = this._commands[i];
+
+				if (command is ISelectable selectable)
+				{
+
+					jumpstack.Push(selectable);
+					continue;
+
+				}
+
+				else if (command is EndCommand end)
+				{
+
+					jumpstack.Peek().LastCommand = i;
+					jumpstack.Pop();
+
+				}
+
+			}
 		}
 
 		private void ExecuteSingle(BaseCommand command)

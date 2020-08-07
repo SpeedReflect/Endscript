@@ -1,6 +1,7 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Helpers;
 using Endscript.Interfaces;
 
 
@@ -12,24 +13,25 @@ namespace Endscript.Commands
 	/// </summary>
 	public class ComboboxCommand : BaseCommand, ISelectable
 	{
-		private string[] _options;
+		private OptionState[] _options;
 		private string _description = String.Empty;
 
 		public override eCommandType Type => eCommandType.combobox;
-		public string[] Options => this._options;
+		public OptionState[] Options => this._options;
 		public string Description => this._description;
 		public int Choice { get; set; }
+		public int LastCommand { get; set; }
 
 		public override void Prepare(string[] splits)
 		{
 			if (splits.Length < 4) throw new Exception($"Expected at least 4 arguments, got {splits.Length}");
 
-			this._options = new string[splits.Length - 2];
+			this._options = new OptionState[splits.Length - 2];
 
 			for (int i = 1; i < splits.Length - 1; ++i)
 			{
 
-				this._options[i - 1] = splits[i];
+				this._options[i - 1] = new OptionState(splits[i]);
 
 			}
 
@@ -45,7 +47,7 @@ namespace Endscript.Commands
 			for (int i = 0; i < this._options.Length; ++i)
 			{
 
-				if (option == this._options[i]) return i;
+				if (option == this._options[i].Name) return i;
 
 			}
 
@@ -57,7 +59,7 @@ namespace Endscript.Commands
 			for (int i = 0; i < this._options.Length; ++i)
 			{
 
-				if (option == this._options[i]) return true;
+				if (option == this._options[i].Name) return true;
 
 			}
 

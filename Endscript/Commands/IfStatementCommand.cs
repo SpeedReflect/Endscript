@@ -1,6 +1,7 @@
 ﻿using System;
 using Endscript.Core;
 using Endscript.Enums;
+using Endscript.Helpers;
 using Endscript.Interfaces;
 using Endscript.Commands.Logical;
 
@@ -13,15 +14,23 @@ namespace Endscript.Commands
 	/// </summary>
 	public class IfStatementCommand : BaseCommand, ISelectable
 	{
-		private string[] _options;
+		private OptionState[] _options;
 		private ILogical _logical;
 
 		public override eCommandType Type => eCommandType.@if;
-		public string[] Options => this._options;
+		public OptionState[] Options => this._options;
 		public string Description => "IfStatement";
 		public int Choice { get; set; }
+		public int LastCommand { get; set; } = -1;
 
-		public IfStatementCommand() => this._options = new string[2] { "do", "else" };
+		public IfStatementCommand()
+		{
+			this._options = new OptionState[2]
+			{
+				new OptionState("do"),
+				new OptionState("else"),
+			};
+		}
 
 		public override void Prepare(string[] splits)
 		{
@@ -36,11 +45,13 @@ namespace Endscript.Commands
 
 			this._logical = logic switch
 			{
+				eLogicType.incareer_exists => new InCareerExistsLogicalCheck(),
 				eLogicType.texture_exists => new TextureExistsLogicalCheck(),
 				eLogicType.string_exists => new StringExistsLogicalCheck(),
 				eLogicType.file_exists => new FileExistsLogicalCheck(),
 				eLogicType.directory_exists => new DirectoryExistsLogicalCheck(),
 				eLogicType.collection_value_equals => new CollectionValueEqualsLogicalCheck(),
+				eLogicType.incareer_value_equals => new InCareerValueEqualsLogicalCheck(),
 				eLogicType.texture_value_equals => new TextureValueEqualsLogicalCheck(),
 				eLogicType.string_value_equals => new StringValueEqualsLogicalCheck(),
 				_ => new CollectionExistsLogicalCheck(),
@@ -66,7 +77,7 @@ namespace Endscript.Commands
 
 		public bool Contains(string option)
 		{
-			return option == this._options[0] || option == this._options[1];
+			return option == this._options[0].Name || option == this._options[1].Name;
 		}
 	}
 }
