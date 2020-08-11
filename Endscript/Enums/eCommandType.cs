@@ -43,6 +43,7 @@
 		@if,
 		stop_errors,
 		unlock_memory,
+		speedreflect,
 		end,
 	}
 }
