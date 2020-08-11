@@ -41,6 +41,8 @@
 		checkbox,
 		combobox,
 		@if,
+		stop_errors,
+		unlock_memory,
 		end,
 	}
 }

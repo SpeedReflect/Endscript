@@ -19,6 +19,7 @@ namespace Endscript.Core
 		private readonly Stack<ISelectable> _stack;
 		private int _index = -1;
 		private bool _waiting_selection;
+		private bool _stop_errors;
 
 		public IEnumerable<EndError> Errors => this._errors;
 		public int CurrentIndex => this._index;
@@ -177,6 +178,13 @@ namespace Endscript.Core
 
 				command.Execute(this._map);
 
+				if (command is StopErrorsCommand stop)
+				{
+
+					this._stop_errors = stop.Enable;
+
+				}
+
 				#if DEBUG
 				Console.WriteLine($"Executing [{command.Line}]");
 				#endif
@@ -185,13 +193,18 @@ namespace Endscript.Core
 			catch (Exception e)
 			{
 
-				this._errors.Add(new EndError()
+				if (!this._stop_errors)
 				{
-					Error = e.GetLowestMessage(),
-					Filename = command.Filename,
-					Line = command.Line,
-					Index = command.Index,
-				});
+
+					this._errors.Add(new EndError()
+					{
+						Error = e.GetLowestMessage(),
+						Filename = command.Filename,
+						Line = command.Line,
+						Index = command.Index,
+					});
+
+				}
 
 			}
 		}
