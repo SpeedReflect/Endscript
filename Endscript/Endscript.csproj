@@ -5,7 +5,7 @@
     <Description>Library for managing, parsing, and generating End commands based on Nikki class library.</Description>
     <Company />
     <Authors>MaxHwoy</Authors>
-    <Version>1.1.4</Version>
+    <Version>1.2.6</Version>
     <Copyright>Copyright © 2020 MaxHwoy</Copyright>
   </PropertyGroup>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Endscript.Core;
 using Endscript.Enums;
@@ -9,7 +10,7 @@ using Endscript.Exceptions;
 namespace Endscript.Commands
 {
 	/// <summary>
-	/// Command of type 'speedreflect [all/one]'.
+	/// Command of type 'speedreflect [auto/dir]'.
 	/// </summary>
 	public class SpeedReflectCommand : BaseCommand
 	{
@@ -26,28 +27,30 @@ namespace Endscript.Commands
 
 		public override void Execute(CollectionMap map)
 		{
-			var speedfrom = Path.Combine(map.Directory, "SpeedReflect.dll");
-			var speedto = Path.Combine(map.Profile.Directory, @"scripts\SpeedReflect.asi");
+			var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			var speedfrom = Path.Combine(dir, "SpeedReflect.dll");
 
-			if (String.Compare(this._type, "all", StringComparison.OrdinalIgnoreCase) == 0)
+			if (!File.Exists(speedfrom))
 			{
 
-				var dinfrom = Path.Combine(map.Directory, "dinput8.dll");
-				var dinto = Path.Combine(map.Profile.Directory, "dinput8.dll");
-				File.Copy(speedfrom, speedto, true);
-				File.Copy(dinfrom, dinto, true);
+				throw new FileNotFoundException("SpeedReflect.dll was not found");
 
 			}
-			else if (String.Compare(this._type, "one", StringComparison.OrdinalIgnoreCase) == 0)
+
+			if (String.Compare(this._type, "auto", StringComparison.OrdinalIgnoreCase) == 0)
 			{
 
+				var speedto = Path.Combine(map.Profile.Directory, @"scripts\SpeedReflect.asi");
+				Directory.CreateDirectory(Path.Combine(map.Profile.Directory, "scripts"));
 				File.Copy(speedfrom, speedto, true);
 
 			}
-			else
+			else // accounts as a directory
 			{
 
-				throw new Exception($"Invalid argument passed named {this._type}");
+				var speedto = Path.Combine(map.Profile.Directory, this._type);
+				Directory.CreateDirectory(Path.Combine(map.Profile.Directory, Path.GetDirectoryName(this._type)));
+				File.Copy(speedfrom, speedto, true);
 
 			}
 		}
