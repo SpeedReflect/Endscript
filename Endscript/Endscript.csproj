@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Utils\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="CoreExtensions">
       <HintPath>..\..\Nikki\Nikki\CoreExtensions.dll</HintPath>
     </Reference>
