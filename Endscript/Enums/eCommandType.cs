@@ -24,6 +24,8 @@
 		copy_incareer,
 		replace_texture,
 		bind_textures,
+		add_or_update_string,
+		add_or_replace_texture,
 		@static,
 		import,
 		@new,

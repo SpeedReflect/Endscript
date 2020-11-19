@@ -66,15 +66,6 @@ namespace Endscript.Profiles
 			}
 		}
 		public SynchronizedDatabase this[string filename] => this.Find(filename);
-		~BaseProfile()
-		{
-			for (int i = 0; i < this._size; ++i) this._sdb[i] = null;
-			ForcedX.GCCollect();
-
-			#if DEBUG
-			Console.WriteLine($"Profile {this.GameINT} destroyed");
-			#endif
-		}
 
 		public int Capacity
 		{

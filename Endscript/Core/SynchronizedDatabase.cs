@@ -31,12 +31,6 @@ namespace Endscript.Core
 			this.Folder = folder;
 			this.Filename = file.ToUpperInvariant();
 		}
-		~SynchronizedDatabase()
-		{
-			#if DEBUG
-			Console.WriteLine($"SynchronizedDatabase {this.Filename} destroyed");
-			#endif
-		}
 
 		public void Load() => this.Database.Load(new Options() { File = this.FullPath });
 		public void Save() => this.Database.Save(new Options() { File = this.FullPath, Watermark = Watermark });

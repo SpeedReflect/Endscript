@@ -33,13 +33,6 @@ namespace Endscript.Core
 			this.LoadMapFromProfile(false);
 		}
 
-		~CollectionMap()
-		{
-			#if DEBUG
-			Console.WriteLine("CollectionMap destroyed");
-			#endif
-		}
-
 		private int FastEstimateCapacity()
 		{
 			int result = 10;

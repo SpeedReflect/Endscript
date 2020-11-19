@@ -39,13 +39,6 @@ namespace Endscript.Core
 			this._filename = filename;
 		}
 
-		~EndScriptParser()
-		{
-			#if DEBUG
-			Console.WriteLine("EndScriptParser destroyed");
-			#endif
-		}
-
 		public BaseCommand[] Read()
 		{
 			return this.RecursiveRead(this._filename).ToArray();
@@ -177,6 +170,8 @@ namespace Endscript.Core
 			{
 				eCommandType.add_collection => new AddCollectionCommand(),
 				eCommandType.add_incareer => new AddInCareerCommand(),
+				eCommandType.add_or_replace_texture => new AddOrReplaceTextureCommand(),
+				eCommandType.add_or_update_string => new AddOrUpdateStringCommand(),
 				eCommandType.add_string => new AddStringCommand(),
 				eCommandType.add_texture => new AddTextureCommand(),
 				eCommandType.bind_textures => new BindTexturesCommand(),

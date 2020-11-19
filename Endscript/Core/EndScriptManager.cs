@@ -43,13 +43,6 @@ namespace Endscript.Core
 			this.CommandChase();
 		}
 
-		~EndScriptManager()
-		{
-			#if DEBUG
-			Console.WriteLine("EndScriptManager destroyed");
-			#endif
-		}
-
 		/// <summary>
 		/// Processes commands passed on initialization. When returns <see cref="true"/> that 
 		/// means all commands have been executed without errors. When returns <see cref="false"/> 
