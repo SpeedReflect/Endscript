@@ -169,7 +169,7 @@ namespace Endscript.Core
 			try
 			{
 
-				command.Execute(this._map);
+				//command.Execute(this._map);
 
 				if (command is StopErrorsCommand stop)
 				{

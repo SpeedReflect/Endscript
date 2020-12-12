@@ -87,6 +87,7 @@ namespace Endscript.Core
 				var line = lines[i];
 				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
 
+				line = line.Trim();
 				this.CurrentLine = line;
 				this.CurrentIndex = i + 1;
 

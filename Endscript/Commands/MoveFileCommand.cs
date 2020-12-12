@@ -62,9 +62,22 @@ namespace Endscript.Commands
 
 			if (this._import == eImportType.negate && File.Exists(this._path_to)) return;
 
-			var directory = Path.GetDirectoryName(this._path_to);
-			Directory.CreateDirectory(directory);
-			File.Copy(this._path_from, this._path_to, true);
+			if (!File.Exists(this._path_to))
+			{
+
+				var directory = Path.GetDirectoryName(this._path_to);
+				Directory.CreateDirectory(directory);
+				File.Copy(this._path_from, this._path_to, true);
+			
+			}
+			else
+			{
+
+				var info = new FileInfo(this._path_to);
+				info.IsReadOnly = false;
+				File.Copy(this._path_from, this._path_to, true);
+
+			}
 		}
 	}
 }
