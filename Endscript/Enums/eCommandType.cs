@@ -46,6 +46,8 @@
 		stop_errors,
 		unlock_memory,
 		speedreflect,
+		unpack_stream,
+		pack_stream,
 		end,
 	}
 }

@@ -85,9 +85,10 @@ namespace Endscript.Core
 			{
 
 				var line = lines[i];
+				line = line.Trim();
+
 				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
 
-				line = line.Trim();
 				this.CurrentLine = line;
 				this.CurrentIndex = i + 1;
 
@@ -191,6 +192,7 @@ namespace Endscript.Core
 				eCommandType.import => new ImportCommand(),
 				eCommandType.move_file => new MoveFileCommand(),
 				eCommandType.@new => new NewCommand(),
+				eCommandType.pack_stream => new PackStreamCommand(),
 				eCommandType.remove_collection => new RemoveCollectionCommand(),
 				eCommandType.remove_incareer => new RemoveInCareerCommand(),
 				eCommandType.remove_string => new RemoveStringCommand(),
@@ -200,6 +202,7 @@ namespace Endscript.Core
 				eCommandType.@static => new StaticCommand(),
 				eCommandType.stop_errors => new StopErrorsCommand(),
 				eCommandType.unlock_memory => new UnlockMemoryCommand(),
+				eCommandType.unpack_stream => new UnpackStreamCommand(),
 				eCommandType.update_collection => new UpdateCollectionCommand(),
 				eCommandType.update_incareer => new UpdateInCareerCommand(),
 				eCommandType.update_string => new UpdateStringCommand(),
