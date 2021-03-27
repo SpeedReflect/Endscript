@@ -5,8 +5,10 @@
     <Description>Library for managing, parsing, and generating End commands based on Nikki class library.</Description>
     <Company />
     <Authors>MaxHwoy</Authors>
-    <Version>1.3.1</Version>
-    <Copyright>Copyright © 2020 MaxHwoy</Copyright>
+    <Version>1.4</Version>
+    <Copyright>Copyright © 2021 MaxHwoy</Copyright>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

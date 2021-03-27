@@ -28,12 +28,12 @@ namespace Endscript.Commands
 		public override void Execute(CollectionMap map)
 		{
 			var dir = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-			var speedfrom = Path.Combine(dir, "SpeedReflect.dll");
+			var speedfrom = Path.Combine(dir, "SpeedReflect.asi");
 
 			if (!File.Exists(speedfrom))
 			{
 
-				throw new FileNotFoundException("SpeedReflect.dll was not found");
+				throw new FileNotFoundException("SpeedReflect.asi was not found");
 
 			}
 
