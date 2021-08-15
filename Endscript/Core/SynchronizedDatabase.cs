@@ -23,6 +23,7 @@ namespace Endscript.Core
 				GameINT.Carbon => new Nikki.Support.Carbon.Datamap(),
 				GameINT.MostWanted => new Nikki.Support.MostWanted.Datamap(),
 				GameINT.Prostreet => new Nikki.Support.Prostreet.Datamap(),
+				GameINT.Undercover => new Nikki.Support.Undercover.Datamap(),
 				GameINT.Underground1 => new Nikki.Support.Underground1.Datamap(),
 				GameINT.Underground2 => new Nikki.Support.Underground2.Datamap(),
 				_ => throw new ArgumentException(nameof(game)),
