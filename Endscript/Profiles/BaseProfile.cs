@@ -615,7 +615,7 @@ namespace Endscript.Profiles
 			ForcedX.GCCollect();
 		}
 
-		public Exception[] Load(Launch launch)
+		public string[] Load(Launch launch)
 		{
 			this.LoadHashList();
 			launch.LoadLinks();
@@ -623,13 +623,13 @@ namespace Endscript.Profiles
 			if (launch.Files.Count == 0)
 			{
 
-				return new Exception[0];
+				return new string[0];
 
 			}
 
 			launch.CheckFiles();
 
-			var tasks = new Task<Exception>[launch.Files.Count];
+			var tasks = new Task<string>[launch.Files.Count];
 
 			for (int i = 0; i < tasks.Length; ++i)
 			{
@@ -641,12 +641,12 @@ namespace Endscript.Profiles
 
 			Task.WaitAll(tasks);
 
-			return tasks.Select(_ => _.Result).ToArray();
+			return tasks.Select(_ => _.Result).Where(_ => !(_ is null)).ToArray();
 		}
 
-		public Exception[] Save()
+		public string[] Save()
 		{
-			var tasks = new Task<Exception>[this._size];
+			var tasks = new Task<string>[this._size];
 
 			for (int i = 0; i < this._size; ++i)
 			{
@@ -658,7 +658,7 @@ namespace Endscript.Profiles
 			Task.WaitAll(tasks);
 			this.SaveHashList();
 
-			return tasks.Select(_ => _.Result).ToArray();
+			return tasks.Select(_ => _.Result).Where(_ => !(_ is null)).ToArray();
 		}
 
 		public abstract void LoadHashList();
@@ -677,7 +677,7 @@ namespace Endscript.Profiles
 			deserializer.Deserialize();
 		}
 
-		private Exception LoadOneSDB(SynchronizedDatabase sdb)
+		private string LoadOneSDB(SynchronizedDatabase sdb)
 		{
 			try
 			{
@@ -689,12 +689,12 @@ namespace Endscript.Profiles
 			catch (Exception ex)
 			{
 
-				return ex;
+				return $"Error when loading file {sdb.Filename} -> {ex.GetLowestMessage()}";
 
 			}
 		}
 
-		private Exception SaveOneSDB(SynchronizedDatabase sdb)
+		private string SaveOneSDB(SynchronizedDatabase sdb)
 		{
 			try
 			{
@@ -706,7 +706,7 @@ namespace Endscript.Profiles
 			catch (Exception ex)
 			{
 
-				return ex;
+				return $"Error when saving file {sdb.Filename} -> {ex.GetLowestMessage()}";
 
 			}
 		}

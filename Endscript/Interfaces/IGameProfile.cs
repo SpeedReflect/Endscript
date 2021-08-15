@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Endscript.Core;
 using Nikki.Core;
 
@@ -14,8 +12,8 @@ namespace Endscript.Interfaces
 		public string GameSTR { get; }
 		public string Directory { get; }
 
-		public Task<Exception[]> Load(Launch launch);
-		public Task<Exception[]> Save();
+		public string[] Load(Launch launch);
+		public string[] Save();
 		public void Serialize(string directory);
 		public void Deserialize(string directory);
 	}
