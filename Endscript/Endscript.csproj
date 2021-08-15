@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Nikki\Nikki\Nikki.csproj" />
+    <ProjectReference Include="..\Modules\Nikki\Nikki\Nikki.csproj" />
   </ItemGroup>
 
 </Project>
