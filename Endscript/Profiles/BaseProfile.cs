@@ -582,7 +582,7 @@ namespace Endscript.Profiles
 			switch (type)
 			{
 				case eImportType.negate:
-					if (File.Exists(sdb.FullPath)) { sdb.Load(); break; }
+					if (File.Exists(sdb.FullPath)) { NegateFile(); break; }
 					else goto default;
 
 				case eImportType.synchronize:
@@ -595,6 +595,18 @@ namespace Endscript.Profiles
 					File.Create(sdb.FullPath);
 					break;
 
+			}
+
+			void NegateFile()
+			{
+				var error = this.LoadOneSDB(sdb);
+
+				if (!(error is null))
+				{
+
+					throw new Exception(error);
+
+				}
 			}
 		}
 
@@ -609,7 +621,15 @@ namespace Endscript.Profiles
 
 			}
 
-			this._sdb[index].Save();
+			var error = this.SaveOneSDB(this._sdb[index]);
+
+			if (!(error is null))
+			{
+
+				throw new Exception(error);
+
+			}
+
 			this.RemoveAt(index);
 			this.SaveHashList();
 			ForcedX.GCCollect();
