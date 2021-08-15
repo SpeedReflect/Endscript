@@ -130,37 +130,46 @@ namespace Endscript.Core
 
 		private void CommandChase()
 		{
-			var jumpstack = new Stack<ISelectable>();
-
-			for (int i = 0; i < this._commands.Length; ++i)
+			try
 			{
 
-				var command = this._commands[i];
+				var jumpstack = new Stack<ISelectable>();
 
-				if (command is ISelectable selectable)
+				for (int i = 0; i < this._commands.Length; ++i)
 				{
 
-					jumpstack.Push(selectable);
-					continue;
+					var command = this._commands[i];
+
+					if (command is ISelectable selectable)
+					{
+
+						jumpstack.Push(selectable);
+						continue;
+
+					}
+
+					else if (command is OptionalCommand optional)
+					{
+
+						var peek = jumpstack.Peek();
+						if (peek.Contains(optional.Option)) peek[optional.Option].Start = i;
+
+					}
+
+					else if (command is EndCommand end)
+					{
+
+						jumpstack.Peek().LastCommand = i;
+						jumpstack.Pop();
+
+					}
 
 				}
 
-				else if (command is OptionalCommand optional)
-				{
-
-					var peek = jumpstack.Peek();
-					if (peek.Contains(optional.Option)) peek[optional.Option].Start = i;
-
-				}
-
-				else if (command is EndCommand end)
-				{
-
-					jumpstack.Peek().LastCommand = i;
-					jumpstack.Pop();
-
-				}
-
+			}
+			catch
+			{
+				throw new Exception("Unable to correctly pass and chase the commands passed. Please check your script");
 			}
 		}
 

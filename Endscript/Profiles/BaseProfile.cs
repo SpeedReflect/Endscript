@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,10 +17,10 @@ namespace Endscript.Profiles
 {
 	public abstract class BaseProfile : IGameProfile
 	{
+		private static readonly SynchronizedDatabase[] _empty;
+		private int _capacity => this._sdb.Length;
 		private SynchronizedDatabase[] _sdb;
 		private int _size;
-		private SynchronizedDatabase[] _empty = new SynchronizedDatabase[0];
-		private int _capacity => this._sdb.Length;
 
 		public abstract GameINT GameINT { get; }
 		public abstract string GameSTR { get; }
@@ -101,7 +102,7 @@ namespace Endscript.Profiles
 				else
 				{
 
-					this._sdb = this._empty;
+					this._sdb = BaseProfile._empty;
 					ForcedX.GCCollect();
 
 				}
@@ -112,14 +113,19 @@ namespace Endscript.Profiles
 
 		#region Main
 
+		static BaseProfile()
+		{
+			BaseProfile._empty = new SynchronizedDatabase[0];
+		}
+
 		public BaseProfile()
 		{
-			this._sdb = this._empty;
+			this._sdb = BaseProfile._empty;
 		}
 
 		public BaseProfile(int capacity)
 		{
-			this._sdb = capacity <= 0 ? this._empty : (new SynchronizedDatabase[capacity]);
+			this._sdb = capacity <= 0 ? BaseProfile._empty : (new SynchronizedDatabase[capacity]);
 		}
 
 		public BaseProfile(IEnumerable<SynchronizedDatabase> collection)
@@ -139,7 +145,7 @@ namespace Endscript.Profiles
 					if (elements.Count == 0)
 					{
 
-						this._sdb = this._empty;
+						this._sdb = BaseProfile._empty;
 						return;
 
 					}
@@ -156,7 +162,7 @@ namespace Endscript.Profiles
 				else
 				{
 
-					this._sdb = this._empty;
+					this._sdb = BaseProfile._empty;
 
 					foreach (var element in collection)
 					{
@@ -593,40 +599,42 @@ namespace Endscript.Profiles
 			ForcedX.GCCollect();
 		}
 
-		public async void Load(Launch launch)
+		public async Task<Exception[]> Load(Launch launch)
 		{
 			this.LoadHashList();
 			launch.LoadLinks();
-			if (launch.Files.Count == 0) return;
+			if (launch.Files.Count == 0) return new Exception[0];
 			launch.CheckFiles();
 
-			var tasks = new List<Task>(launch.Files.Count);
+			var tasks = new List<Task<Exception>>(launch.Files.Count);
 
 			foreach (var file in launch.Files)
 			{
 
 				var sdb = new SynchronizedDatabase(this.GameINT, this.Directory, file);
 				this.Add(sdb);
-				tasks.Add(this.LoadOneSDB(sdb));
+				tasks.Add(Task.Run(() => this.LoadOneSDB(sdb)));
 
 			}
 
 			await Task.WhenAll(tasks);
+			return tasks.Select(_ => _.Result).ToArray();
 		}
 
-		public async void Save()
+		public async Task<Exception[]> Save()
 		{
-			var tasks = new List<Task>(this._size);
+			var tasks = new List<Task<Exception>>(this._size);
 
 			foreach (var sdb in this)
 			{
 
-				tasks.Add(this.SaveOneSDB(sdb));
+				tasks.Add(Task.Run(() => this.SaveOneSDB(sdb)));
 
 			}
 
 			await Task.WhenAll(tasks);
 			this.SaveHashList();
+			return tasks.Select(_ => _.Result).ToArray();
 		}
 
 		public abstract void LoadHashList();
@@ -645,16 +653,38 @@ namespace Endscript.Profiles
 			deserializer.Deserialize();
 		}
 
-		private Task LoadOneSDB(SynchronizedDatabase sdb)
+		private Exception LoadOneSDB(SynchronizedDatabase sdb)
 		{
-			sdb.Load();
-			return Task.CompletedTask;
+			try
+			{
+
+				sdb.Load();
+				return null;
+
+			}
+			catch (Exception ex)
+			{
+
+				return ex;
+
+			}
 		}
 
-		private Task SaveOneSDB(SynchronizedDatabase sdb)
+		private Exception SaveOneSDB(SynchronizedDatabase sdb)
 		{
-			sdb.Save();
-			return Task.CompletedTask;
+			try
+			{
+
+				sdb.Save();
+				return null;
+
+			}
+			catch (Exception ex)
+			{
+
+				return ex;
+
+			}
 		}
 	}
 }
