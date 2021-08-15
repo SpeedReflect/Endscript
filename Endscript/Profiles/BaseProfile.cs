@@ -293,6 +293,22 @@ namespace Endscript.Profiles
 			this._sdb[this._size++] = item;
 		}
 		
+		public SynchronizedDatabase AddNew(string filename)
+		{
+			if (this.Contains(filename))
+			{
+
+				throw new DatabaseExistenceException(filename);
+
+			}
+
+			if (this._size == this._capacity) ++this.Capacity;
+
+			var sdb = new SynchronizedDatabase(this.GameINT, this.Directory, filename);
+			this._sdb[this._size++] = sdb;
+			return sdb;
+		}
+
 		public void Clear()
 		{
 			if (this._size > 0)
@@ -599,41 +615,49 @@ namespace Endscript.Profiles
 			ForcedX.GCCollect();
 		}
 
-		public async Task<Exception[]> Load(Launch launch)
+		public Exception[] Load(Launch launch)
 		{
 			this.LoadHashList();
 			launch.LoadLinks();
-			if (launch.Files.Count == 0) return new Exception[0];
-			launch.CheckFiles();
 
-			var tasks = new List<Task<Exception>>(launch.Files.Count);
-
-			foreach (var file in launch.Files)
+			if (launch.Files.Count == 0)
 			{
 
-				var sdb = new SynchronizedDatabase(this.GameINT, this.Directory, file);
-				this.Add(sdb);
-				tasks.Add(Task.Run(() => this.LoadOneSDB(sdb)));
+				return new Exception[0];
 
 			}
 
-			await Task.WhenAll(tasks);
+			launch.CheckFiles();
+
+			var tasks = new Task<Exception>[launch.Files.Count];
+
+			for (int i = 0; i < tasks.Length; ++i)
+			{
+
+				var sdb = this.AddNew(launch.Files[i]);
+				tasks[i] = Task.Run(() => this.LoadOneSDB(sdb));
+
+			}
+
+			Task.WaitAll(tasks);
+
 			return tasks.Select(_ => _.Result).ToArray();
 		}
 
-		public async Task<Exception[]> Save()
+		public Exception[] Save()
 		{
-			var tasks = new List<Task<Exception>>(this._size);
+			var tasks = new Task<Exception>[this._size];
 
-			foreach (var sdb in this)
+			for (int i = 0; i < this._size; ++i)
 			{
 
-				tasks.Add(Task.Run(() => this.SaveOneSDB(sdb)));
+				tasks[i] = Task.Run(() => this.SaveOneSDB(this._sdb[i]));
 
 			}
 
-			await Task.WhenAll(tasks);
+			Task.WaitAll(tasks);
 			this.SaveHashList();
+
 			return tasks.Select(_ => _.Result).ToArray();
 		}
 
