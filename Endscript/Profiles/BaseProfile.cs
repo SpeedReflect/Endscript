@@ -671,7 +671,8 @@ namespace Endscript.Profiles
 			for (int i = 0; i < this._size; ++i)
 			{
 
-				tasks[i] = Task.Run(() => this.SaveOneSDB(this._sdb[i]));
+				var sdb = this._sdb[i];
+				tasks[i] = Task.Run(() => this.SaveOneSDB(sdb));
 
 			}
 
