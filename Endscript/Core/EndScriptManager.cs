@@ -40,7 +40,6 @@ namespace Endscript.Core
 			this._commands = commands;
 			this._map = new CollectionMap(profile, launcher);
 			this._index = 0;
-			this.CommandChase();
 		}
 
 		/// <summary>
@@ -128,7 +127,10 @@ namespace Endscript.Core
 			catch (Exception ex) { throw ex; }
 		}
 
-		private void CommandChase()
+		/// <summary>
+		/// Chases all selectable and logical commands for their end and jump points.
+		/// </summary>
+		public void CommandChase()
 		{
 			try
 			{
