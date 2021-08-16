@@ -661,6 +661,8 @@ namespace Endscript.Profiles
 
 			Task.WaitAll(tasks);
 
+			this.RemoveFilesByErrors(tasks);
+
 			return tasks.Select(_ => _.Result).Where(_ => !(_ is null)).ToArray();
 		}
 
@@ -728,6 +730,30 @@ namespace Endscript.Profiles
 			{
 
 				return $"Error when saving file {sdb.Filename} -> {ex.GetLowestMessage()}";
+
+			}
+		}
+
+		private void RemoveFilesByErrors(Task<string>[] errors)
+		{
+			var removables = new List<string>(errors.Length);
+
+			for (int i = 0; i < errors.Length; ++i)
+			{
+
+				if (!String.IsNullOrEmpty(errors[i].Result))
+				{
+
+					removables.Add(this._sdb[i].Filename);
+
+				}
+
+			}
+
+			for (int i = 0; i < removables.Count; ++i)
+			{
+
+				this.Remove(removables[i]);
 
 			}
 		}
