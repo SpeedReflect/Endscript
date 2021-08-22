@@ -28,6 +28,7 @@
 		add_or_replace_texture,
 		@static,
 		import,
+		import_all,
 		@new,
 		delete,
 		watermark,

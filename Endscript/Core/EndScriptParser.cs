@@ -88,6 +88,7 @@ namespace Endscript.Core
 				line = line.Trim();
 
 				if (String.IsNullOrWhiteSpace(line) || line.StartsWith("//") || line.StartsWith('#')) continue;
+				if (line.StartsWith('{') || line.StartsWith('}')) continue;
 
 				this.CurrentLine = line;
 				this.CurrentIndex = i + 1;
@@ -190,6 +191,7 @@ namespace Endscript.Core
 				eCommandType.erase_folder => new EraseFolderCommand(),
 				eCommandType.@if => new IfStatementCommand(),
 				eCommandType.import => new ImportCommand(),
+				eCommandType.import_all => new ImportAllCommand(),
 				eCommandType.move_file => new MoveFileCommand(),
 				eCommandType.@new => new NewCommand(),
 				eCommandType.pack_stream => new PackStreamCommand(),
